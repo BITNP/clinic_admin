@@ -1,13 +1,12 @@
 <template>
-  <MainList />
+  <Profile />
 </template>
 
 <script>
-import MainList from "../components/MainList";
-
+import Profile from "@/components/UserProfile";
 export default {
   components: {
-    MainList
+    Profile
   }
 };
 </script>
