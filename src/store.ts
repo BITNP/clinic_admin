@@ -11,7 +11,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    version: "0.9.11",
+    version: "0.10.1",
     count: 0,
     drawer: false,
     loading: {
@@ -30,7 +30,7 @@ export default new Vuex.Store({
       school: "",
       campus: "",
     },
-    users: new Map(),
+    users: {},
     workers: [],
     snackbar: {
       text: "Done",
@@ -40,7 +40,7 @@ export default new Vuex.Store({
   },
   getters: {
     url2UserLocal: state => (url: string) => {
-      return state.users.get(url);
+      return (state.users as any)[url];
     }
   },
   mutations: {
@@ -101,14 +101,18 @@ export default new Vuex.Store({
         .then(response => {
           state.dataStore = response.data;
           state.data = state.data.concat(response.data.results);
-
+          console.log("DEBUG===============")
+          console.log(state.dataStore)
+          console.log(state.data)
           let fetchList = new Map();
           response.data.results.forEach((v: any) => {
-            if (v.worker && !state.users.get(v.worker)) fetchList.set(v.worker, null);
-            if (v.user && !state.users.get(v.user)) fetchList.set(v.user, null);
+            if (v.worker && !(state.users as any)[v.worker]) fetchList.set(v.worker, null);
+            if (v.user && !(state.users as any)[v.user]) fetchList.set(v.user, null);
           });
-          Object.keys(fetchList).forEach(v => {
-            if (!state.users.get(v)) {
+
+          for (let [key, value] of fetchList){
+            let v = key;
+            if (!(state.users as any)[v]) {
               axios
                 .get(v)
                 .then(response => {
@@ -128,7 +132,7 @@ export default new Vuex.Store({
                 display: true
               };
             }
-          });
+          };
         })
         .catch(error => {
           console.log(error);
@@ -138,7 +142,10 @@ export default new Vuex.Store({
             display: true
           };
         })
-        .finally(() => { });
+        .finally(() => {
+          console.log(state.users)
+        });
+
     },
     fetchUser(state, url) {
       // 获取用户信息,仅当本地不存在时候调用
@@ -159,7 +166,7 @@ export default new Vuex.Store({
         });
     },
     ifNotFetchUsers(state, url) {
-      if (state.users.get(url)) return;
+      if ((state.users as any)[url]) return;
       axios
         .get(url)
         .then(response => {

@@ -6,7 +6,7 @@
         <span class="font-weight-light">BIT</span>
         <span>np</span>
 
-        <dev text>电脑诊所</dev>
+        <span text> 电脑诊所</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <!-- <v-text-field

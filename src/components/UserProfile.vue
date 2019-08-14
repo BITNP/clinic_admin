@@ -15,19 +15,18 @@
 
           <v-card-actions>
             <v-row align-center justify-end>
-              <v-col>
-                <v-list-tile-avatar color="grey darken-3" @click="flip">
-                  <v-icon>mdi-account</v-icon>
-                </v-list-tile-avatar>
+              <v-col @click="flip">
+                <!-- <v-list-item-avatar color="grey darken-3" @click="flip"> -->
+                <v-icon>mdi-account-outline</v-icon>
+                <!-- </v-list-item-avatar> -->
 
-                <v-list-tile-content>
-                  <v-list-tile-title>{{ user.username }}</v-list-tile-title>
-                </v-list-tile-content></v-col
+                <v-list-item-content>
+                  <v-list-item-title>{{ user.username }}</v-list-item-title>
+                </v-list-item-content></v-col
               >
-              <v-spacer></v-spacer>
               <v-col>
                 <span>
-                  <v-icon class="mr-1">mdi-heart</v-icon>
+                  <v-icon class="mr-1">mdi-account-box-outline</v-icon>
                   <span class="subheading mr-2" v-if="!editable">{{
                     user.realname
                   }}</span>
@@ -37,7 +36,7 @@
                     v-else
                   ></v-text-field>
                   <span class="mr-1">·</span>
-                  <v-icon class="mr-1">mdi-share-variant</v-icon>
+                  <v-icon class="mr-1">mdi-school</v-icon>
                   <span class="subheading" v-if="!editable">{{
                     user.school
                   }}</span>
@@ -60,21 +59,21 @@
 
           <v-list two-line>
             <template v-for="(item, index) in users">
-              <v-list-tile :key="index + 'z'" avatar ripple>
-                <v-list-tile-content>
-                  <v-list-tile-title>{{ item.realname }}</v-list-tile-title>
-                  <v-list-tile-sub-title class="text--primary">{{
+              <v-list-item :key="index + 'z'" avatar ripple>
+                <v-list-item-content>
+                  <v-list-item-title>{{ item.realname }}</v-list-item-title>
+                  <v-list-item-sub-title class="text--primary">{{
                     CAMPUS_TRANS[item.campus]
-                  }}</v-list-tile-sub-title>
-                  <v-list-tile-sub-title>{{
+                  }}</v-list-item-sub-title>
+                  <v-list-item-sub-title>{{
                     item.username
-                  }}</v-list-tile-sub-title>
-                </v-list-tile-content>
+                  }}</v-list-item-sub-title>
+                </v-list-item-content>
 
-                <v-list-tile-action>
-                  <v-list-tile-action-text>{{
+                <v-list-item-action>
+                  <v-list-item-action-text>{{
                     item.school
-                  }}</v-list-tile-action-text>
+                  }}</v-list-item-action-text>
                   <v-icon
                     color="grey lighten-1"
                     v-if="item.username != user.username"
@@ -84,8 +83,8 @@
                   <v-icon v-else color="yellow darken-2">
                     star
                   </v-icon>
-                </v-list-tile-action>
-              </v-list-tile>
+                </v-list-item-action>
+              </v-list-item>
               <v-divider
                 v-if="index + 1 < users.length"
                 :key="index"

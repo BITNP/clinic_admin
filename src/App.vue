@@ -18,7 +18,7 @@
     >
       {{ snackbar.text }}
       <v-btn dark text @click="snackbar.display = false">
-        Close
+        <v-icon>mdi-cancel</v-icon>
       </v-btn>
     </v-snackbar>
   </v-app>

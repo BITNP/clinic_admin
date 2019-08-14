@@ -14,16 +14,16 @@
           <v-card-title class="headline">{{ c.version }}</v-card-title>
           <v-card-text>
             <v-list subheader one-line>
-              <v-list-tile v-for="(item, ind) in c.change" :key="ind">
-                <v-list-tile-content>
-                  <v-list-tile-title>{{
-                    Object.keys(item)[0]
-                  }}</v-list-tile-title>
-                  <v-list-tile-sub-title>{{
-                    Object.values(item)[0]
-                  }}</v-list-tile-sub-title>
-                </v-list-tile-content>
-              </v-list-tile>
+              <v-list-item v-for="(item, ind) in c.change" :key="ind">
+                <v-list-item-content>
+                  <v-list-item-title>
+                    {{ Object.keys(item)[0] }}
+                  </v-list-item-title>
+                  <v-list-item-subtitle>
+                    {{ Object.values(item)[0] }}
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
             </v-list>
           </v-card-text>
         </v-card>
@@ -36,6 +36,20 @@
 export default {
   data: () => ({
     changeLog: [
+      {
+        version: "v0.10.1",
+        dateTime: "2019-08-14 下午",
+        change: [
+          { feature: "更新vuetify 1.5.x --> 2.x" },
+          {
+            fix: "修复一些空间布局，个人信息的布局以及icon"
+          },
+          { todo: "移除sms功能" },
+          { todo: "可以添加一个工单(目前只能在`/admin`中添加)" }
+        ],
+        color: "red",
+        scale: "large"
+      },
       {
         version: "v0.9.11",
         dateTime: "2019-02-24 晚",
