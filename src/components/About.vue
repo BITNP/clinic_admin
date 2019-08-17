@@ -37,6 +37,13 @@ export default {
   data: () => ({
     changeLog: [
       {
+        version: "v0.11.0",
+        dateTime: "2019-08-17 下午",
+        change: [{ feature: "增加服务时间管理功能" }, { fix: "修复刷新功能无法正确加载用户的问题"}],
+        color: "purple",
+        scale: "large"
+      },
+      {
         version: "v0.10.1",
         dateTime: "2019-08-14 下午",
         change: [
@@ -147,7 +154,8 @@ export default {
         dateTime: "2019-02-15",
         change: [
           {
-            feature: "完成主要框架"
+            feature: "完成主要框架",
+            "why v0.9.0?": "基于老版本进行了重构"
           }
         ],
         color: "yellow lighten-2",

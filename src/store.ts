@@ -11,7 +11,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    version: "0.10.1",
+    version: "0.11.0",
     count: 0,
     drawer: false,
     loading: {
@@ -207,7 +207,7 @@ export default new Vuex.Store({
     clearData(state) {
       state.data = [];
       state.dataStore = { next: null };
-      state.users = new Map();
+      state.users = {};
     }
   },
   actions: {

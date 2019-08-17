@@ -1,9 +1,3 @@
-/*
- * @Date: 2019-08-12 21:22:19
- * @LastEditTime: 2019-08-12 21:22:35
- * @Description: file content
- * @LastEditors: Feng Kaiyu
- */
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
