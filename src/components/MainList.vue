@@ -23,13 +23,20 @@
                     r.id,
                     url2User(r.user)['username'],
                     r.realname + (r.phone_num ? ' - ' + r.phone_num : ''),
-                    dateTime(r.appointment_time),
+                    date(r.appointment_time),
                     dateTime(r.arrive_time),
                     STATUS_MAP[r.status]
                   ]"
                   :key="i + 'i'"
                 >
-                  <div class="margin-fix text-truncate">{{ item || "无" }}</div>
+                  <div
+                    :class="{
+                      'grey--text': FINISHED_STATUS.includes(r.status)
+                    }"
+                    class="margin-fix text-truncate"
+                  >
+                    {{ item || "无" }}
+                  </div>
                 </v-col>
               </v-row>
             </v-expansion-panel-header>
@@ -205,6 +212,8 @@
 <script>
 export default {
   data: () => ({
+    WORKING_STATUS: [0, 1, 2, 4, 5],
+    FINISHED_STATUS: [3, 6, 7, 8],
     LIST_TITLE: [
       "工单号",
       "学号",
@@ -328,6 +337,8 @@ export default {
       record = {},
       changeSomeThing = null
     ) {
+      this.$store.commit("loading");
+
       if (to_status == 8) {
         this.$http
           .post("/api/records/", {
@@ -342,7 +353,8 @@ export default {
           .catch(error => {
             console.log(error);
             this.$store.commit("popError", "未能成功创建工单");
-          });
+          })
+          .finally(() => this.$store.commit("loaded"));
       }
       if (record.status != 5 && to_status == 5) {
         // 已到
@@ -361,7 +373,8 @@ export default {
           console.log(error);
           record.status = to_status;
           this.$store.commit("popError", "更新失败");
-        });
+        })
+        .finally(() => this.$store.commit("loaded"));
     },
     next(url) {
       this.$store.commit("getData", url);
@@ -375,6 +388,10 @@ export default {
         // console.log("NO such user");
         return {};
       }
+    },
+    date(d) {
+      if (!d) return "";
+      return new Date(d).toLocaleDateString();
     },
     dateTime(ds) {
       if (!ds) return "";
@@ -409,18 +426,8 @@ export default {
     }
   },
   mounted() {},
-  created() {
-    // if (!this.$store.state.data.length) {
-    //   this.$store.commit("getData", "/api/records/");
-    // }
-  }
+  created() {}
 };
 </script>
 
-<style>
-/*
-.margin-fix {
-   margin: 0 10px; 
-}
-*/
-</style>
+<style></style>

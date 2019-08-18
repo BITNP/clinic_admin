@@ -11,7 +11,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    version: "0.11.0",
+    version: "0.12.1",
     count: 0,
     drawer: false,
     loading: {
@@ -101,16 +101,13 @@ export default new Vuex.Store({
         .then(response => {
           state.dataStore = response.data;
           state.data = state.data.concat(response.data.results);
-          console.log("DEBUG===============")
-          console.log(state.dataStore)
-          console.log(state.data)
           let fetchList = new Map();
           response.data.results.forEach((v: any) => {
             if (v.worker && !(state.users as any)[v.worker]) fetchList.set(v.worker, null);
             if (v.user && !(state.users as any)[v.user]) fetchList.set(v.user, null);
           });
 
-          for (let [key, value] of fetchList){
+          for (let [key, value] of fetchList) {
             let v = key;
             if (!(state.users as any)[v]) {
               axios
@@ -219,9 +216,9 @@ export default new Vuex.Store({
           // console.log(error);
           commit("popError", "提交失败");
         },
-        finallyFun: () => null
+        finallyFun: () => commit("loaded")
       });
-      commit("loaded");
+
     },
     initData({ commit }) {
       commit("loading");

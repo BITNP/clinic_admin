@@ -37,9 +37,35 @@ export default {
   data: () => ({
     changeLog: [
       {
+        version: "v0.12.1",
+        dateTime: "2019-08-18 下午",
+        change: [
+          { fix: "修复工单号无法显示的问题" },
+          { fix: "修复预约时间显示问题" },
+          { feature: "已完成时使用灰色显示" }
+        ],
+        color: "cyan",
+        scale: "small"
+      },
+      {
+        version: "v0.12.0",
+        dateTime: "2019-08-18 下午",
+        change: [
+          { feature: "增加公告管理功能" },
+          { feature: "公告编辑中可以预览markdown内容" },
+          { feature: "在加载时显示loading动画" }
+        ],
+        color: "cyan",
+        scale: "large"
+      },
+
+      {
         version: "v0.11.0",
         dateTime: "2019-08-17 下午",
-        change: [{ feature: "增加服务时间管理功能" }, { fix: "修复刷新功能无法正确加载用户的问题"}],
+        change: [
+          { feature: "增加服务时间管理功能" },
+          { fix: "修复刷新功能无法正确加载用户的问题" }
+        ],
         color: "purple",
         scale: "large"
       },

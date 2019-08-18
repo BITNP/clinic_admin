@@ -4,7 +4,7 @@
       <v-col cols="12">
         <v-data-table
           :headers="headers"
-          :items="dates"
+          :items="announcements"
           sort-by="calories"
           class="elevation-1"
           :loading="loading"
@@ -12,13 +12,13 @@
         >
           <template v-slot:top>
             <v-toolbar flat color="white">
-              <v-toolbar-title>服务时间管理</v-toolbar-title>
+              <v-toolbar-title>公告管理</v-toolbar-title>
               <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
               <v-dialog v-model="dialog" max-width="500px">
                 <template v-slot:activator="{ on }">
                   <v-btn color="primary" dark class="mb-2" v-on="on"
-                    >新建服务时间</v-btn
+                    >新建公告</v-btn
                   >
                 </template>
                 <v-card>
@@ -31,9 +31,16 @@
                       <v-row>
                         <v-col cols="12" sm="6" md="4">
                           <v-text-field
-                            v-model="editedItem.name"
-                            label="服务描述"
+                            v-model="editedItem.title"
+                            label="标题"
                           ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-select
+                            :items="types"
+                            label="类型"
+                            v-model="editedItem.tag"
+                          ></v-select>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                           <v-menu
@@ -47,30 +54,46 @@
                           >
                             <template v-slot:activator="{ on }">
                               <v-text-field
-                                v-model="editedItem.start"
-                                label="日期"
+                                v-model="editedItem.expireDate"
+                                label="过期时间"
                                 readonly
                                 v-on="on"
                               ></v-text-field>
                             </template>
                             <v-date-picker
-                              v-model="editedItem.start"
-                              :allowed-dates="valid_dates"
+                              :allowed-dates="
+                                date => {
+                                  new Date(date) >= new Date();
+                                }
+                              "
+                              v-model="editedItem.expireDate"
                               @input="menu = false"
                             ></v-date-picker>
                           </v-menu>
                         </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field
-                            v-model="editedItem.capacity"
-                            label="服务容纳量"
-                          ></v-text-field>
+                        <v-col cols="12" sm="12" md="12">
+                          <v-textarea
+                            v-model="editedItem.content"
+                            label="内容"
+                          ></v-textarea>
                         </v-col>
                       </v-row>
                     </v-container>
                   </v-card-text>
 
                   <v-card-actions>
+                    <v-btn
+                      color="green darken-1"
+                      text
+                      @click="overlay = !overlay"
+                      >预览内容</v-btn
+                    >
+                    <v-overlay :value="overlay">
+                      <vue-markdown>{{ editedItem.content }}</vue-markdown>
+                      <v-btn icon @click="overlay = false">
+                        <v-icon>mdi-close</v-icon>
+                      </v-btn>
+                    </v-overlay>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" text @click="close"
                       >Cancel</v-btn
@@ -98,26 +121,40 @@
 
 <script>
 import axios from "axios";
+import VueMarkdown from "vue-markdown";
 
 export default {
+  components: {
+    VueMarkdown
+  },
   data: () => ({
+    overlay: false,
     menu: false,
     dialog: false,
     loading: false,
+    types: [
+      { text: "免责声明", value: "TOC" },
+      { text: "普通公告", value: "AN" }
+    ],
+    TYPES_MAP: {
+      TOC: "免责声明",
+      AN: "普通公告"
+    },
     headers: [
       {
         text: "服务描述",
         align: "left",
         sortable: false,
-        value: "name"
+        value: "title"
       },
-      { text: "时间", value: "start" },
-      { text: "容纳量 （人）", value: "capacity" },
-      { text: "已报名 （人）", value: "count" },
-      { text: "已完成 （人）", value: "finish" },
+      { text: "内容", value: "content" },
+      { text: "标签", value: "tag" },
+      { text: "创建时间", value: "createdTime" },
+      { text: "最后修改时间", value: "lastEditedTime" },
+      { text: "过期时间", value: "expireDate" },
       { text: "骚操作", value: "action", sortable: false }
     ],
-    dates: [],
+    announcements: [],
     editedIndex: -1,
     editedItem: {
       name: "正常营业",
@@ -151,34 +188,42 @@ export default {
     initialize() {
       this.loading = true;
       axios
-        .get("/api/date/")
+        .get("/api/announcement/")
         .then(({ data }) => {
-          this.dates = data;
+          data.map(d => {
+            d.createdTime = new Date(d.createdTime).toLocaleString();
+            d.lastEditedTime = new Date(d.lastEditedTime).toLocaleString();
+            d.tag = this.TYPES_MAP[d.tag];
+          });
+          this.announcements = data;
           this.loading = false;
         })
-        .catch(({ response }) => {
-          this.$store.commit("popError", response.data);
+        .catch(error => {
+          if (error.response && error.response.data)
+            this.$store.commit("popError", response.data);
+          else this.$store.commit("popError", error);
         });
     },
 
     editItem(item) {
-      this.editedIndex = this.dates.indexOf(item);
+      this.editedIndex = this.announcements.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     deleteItem(item) {
-      const index = this.dates.indexOf(item);
+      const index = this.announcements.indexOf(item);
       if (confirm("确定删除此时间安排？")) {
         this.$store.commit("loading");
         axios
           .delete(item.url)
           .then(({ statusCode }) => {
-            this.dates.splice(index, 1);
+            this.announcements.splice(index, 1);
             this.$store.commit("popSuccess", "已删除");
           })
           .catch(({ response }) => {
-            if (response.data) this.$store.commit("popError", response.data);
+            if (response && response.data)
+              this.$store.commit("popError", response.data);
           })
           .finally(() => this.$store.commit("loaded"));
       }
@@ -192,7 +237,7 @@ export default {
       }, 300);
     },
     valid_dates(val) {
-      let ds = this.dates.map(d => d.start);
+      let ds = this.announcements.map(d => d.start);
       return (
         new Date(val) >= new Date(new Date().toDateString()) &&
         !ds.includes(val)
@@ -202,7 +247,6 @@ export default {
       this.$store.commit("loading");
       if (this.editedIndex > -1) {
         //   update
-
         axios
           .put(this.editedItem.url, {
             ...this.editedItem
@@ -210,7 +254,11 @@ export default {
           .then(({ statusCode }) => {
             this.$store.commit("popSuccess", "修改成功");
 
-            Object.assign(this.dates[this.editedIndex], this.editedItem);
+            this.editedItem.tag = this.TYPES_MAP[this.editItem.tag];
+            Object.assign(
+              this.announcements[this.editedIndex],
+              this.editedItem
+            );
             this.close();
           })
           .catch(({ response }) => {
@@ -220,14 +268,15 @@ export default {
       } else {
         //   create
         axios
-          .post("/api/date/", {
+          .post("/api/announcement/", {
             ...this.editedItem
           })
           .then(({ statusCode }) => {
             this.$store.commit("popSuccess", "创建成功");
-            this.editedItem.count = 0;
-            this.editedItem.finish = 0;
-            this.dates.push(this.editedItem);
+            this.createdTime = new Date().toLocaleString();
+            this.lastEditedTime = new Date().toLocaleString();
+            this.editedItem.tag = this.TYPES_MAP[this.editItem.tag];
+            this.announcements.push(this.editedItem);
             this.close();
           })
           .catch(({ response }) => {

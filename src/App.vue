@@ -6,11 +6,7 @@
       <router-view></router-view>
     </v-content>
     <Footer />
-    <!-- <v-progress-linear
-          :color="loading.color"
-          v-if="loading.loading"
-          :indeterminate="true"
-        ></v-progress-linear> -->
+
     <v-snackbar
       v-model="snackbar.display"
       :color="snackbar.color"
@@ -37,10 +33,10 @@ export default {
   computed: {
     snackbar() {
       return this.$store.state.snackbar;
-    },
-    loading() {
-      return this.$store.state.loading;
     }
+  },
+  created() {
+    this.$store.commit("loading");
   }
 };
 </script>
