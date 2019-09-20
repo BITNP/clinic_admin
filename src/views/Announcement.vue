@@ -62,9 +62,7 @@
                             </template>
                             <v-date-picker
                               :allowed-dates="
-                                date => {
-                                  new Date(date) >= new Date();
-                                }
+                                date => new Date(date) >= new Date()
                               "
                               v-model="editedItem.expireDate"
                               @input="menu = false"
