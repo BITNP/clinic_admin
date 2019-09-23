@@ -46,6 +46,7 @@
                           <v-menu
                             v-model="menu"
                             :close-on-content-click="false"
+                            :close-on-click="false"
                             :nudge-right="40"
                             transition="scale-transition"
                             offset-y
@@ -87,10 +88,10 @@
                       >预览内容</v-btn
                     >
                     <v-overlay :value="overlay">
-                      <vue-markdown>{{ editedItem.content }}</vue-markdown>
                       <v-btn icon @click="overlay = false">
                         <v-icon>mdi-close</v-icon>
                       </v-btn>
+                      <vue-markdown>{{ editedItem.content }}</vue-markdown>
                     </v-overlay>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" text @click="close"
@@ -155,20 +156,16 @@ export default {
     announcements: [],
     editedIndex: -1,
     editedItem: {
-      name: "正常营业",
-      start: "",
-      capacity: 20
+      tag: "AN"
     },
     defaultItem: {
-      name: "正常营业",
-      start: "",
-      capacity: 20
+      tag: "AN"
     }
   }),
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "新建服务时间" : "编辑服务时间";
+      return this.editedIndex === -1 ? "新建公告" : "编辑公告";
     }
   },
 
@@ -183,16 +180,22 @@ export default {
   },
 
   methods: {
+    localize(d) {
+      d.createdTime = new Date(d.createdTime).toLocaleString();
+      d.lastEditedTime = new Date(d.lastEditedTime).toLocaleString();
+      d.tag = this.TYPES_MAP[d.tag];
+    },
     initialize() {
       this.loading = true;
       axios
         .get("/api/announcement/")
         .then(({ data }) => {
-          data.map(d => {
-            d.createdTime = new Date(d.createdTime).toLocaleString();
-            d.lastEditedTime = new Date(d.lastEditedTime).toLocaleString();
-            d.tag = this.TYPES_MAP[d.tag];
-          });
+          // d => {
+          //   d.createdTime = new Date(d.createdTime).toLocaleString();
+          //   d.lastEditedTime = new Date(d.lastEditedTime).toLocaleString();
+          //   d.tag = this.TYPES_MAP[d.tag];
+          // }
+          data.map(this.localize);
           this.announcements = data;
           this.loading = false;
         })
@@ -211,7 +214,7 @@ export default {
 
     deleteItem(item) {
       const index = this.announcements.indexOf(item);
-      if (confirm("确定删除此时间安排？")) {
+      if (confirm("确定删除此公告？")) {
         this.$store.commit("loading");
         axios
           .delete(item.url)
@@ -249,14 +252,12 @@ export default {
           .put(this.editedItem.url, {
             ...this.editedItem
           })
-          .then(({ statusCode }) => {
+          .then(({ data, statusCode }) => {
             this.$store.commit("popSuccess", "修改成功");
 
             this.editedItem.tag = this.TYPES_MAP[this.editItem.tag];
-            Object.assign(
-              this.announcements[this.editedIndex],
-              this.editedItem
-            );
+            this.localize(data);
+            Object.assign(this.announcements[this.editedIndex], data);
             this.close();
           })
           .catch(({ response }) => {
@@ -269,12 +270,13 @@ export default {
           .post("/api/announcement/", {
             ...this.editedItem
           })
-          .then(({ statusCode }) => {
+          .then(({ data, statusCode }) => {
             this.$store.commit("popSuccess", "创建成功");
             this.createdTime = new Date().toLocaleString();
             this.lastEditedTime = new Date().toLocaleString();
             this.editedItem.tag = this.TYPES_MAP[this.editItem.tag];
-            this.announcements.push(this.editedItem);
+            this.localize(data);
+            this.announcements.push(data);
             this.close();
           })
           .catch(({ response }) => {

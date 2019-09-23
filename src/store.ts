@@ -6,12 +6,11 @@ import axios from "axios";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
-
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    version: "0.12.1",
+    version: "0.12.2",
     count: 0,
     drawer: false,
     loading: {
@@ -28,7 +27,7 @@ export default new Vuex.Store({
       username: "",
       realname: "",
       school: "",
-      campus: "",
+      campus: ""
     },
     users: {},
     workers: [],
@@ -103,8 +102,10 @@ export default new Vuex.Store({
           state.data = state.data.concat(response.data.results);
           let fetchList = new Map();
           response.data.results.forEach((v: any) => {
-            if (v.worker && !(state.users as any)[v.worker]) fetchList.set(v.worker, null);
-            if (v.user && !(state.users as any)[v.user]) fetchList.set(v.user, null);
+            if (v.worker && !(state.users as any)[v.worker])
+              fetchList.set(v.worker, null);
+            if (v.user && !(state.users as any)[v.user])
+              fetchList.set(v.user, null);
           });
 
           for (let [key, value] of fetchList) {
@@ -129,7 +130,7 @@ export default new Vuex.Store({
                 display: true
               };
             }
-          };
+          }
         })
         .catch(error => {
           console.log(error);
@@ -140,9 +141,8 @@ export default new Vuex.Store({
           };
         })
         .finally(() => {
-          console.log(state.users)
+          console.log(state.users);
         });
-
     },
     fetchUser(state, url) {
       // 获取用户信息,仅当本地不存在时候调用
@@ -218,7 +218,6 @@ export default new Vuex.Store({
         },
         finallyFun: () => commit("loaded")
       });
-
     },
     initData({ commit }) {
       commit("loading");

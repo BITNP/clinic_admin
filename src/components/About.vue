@@ -37,6 +37,17 @@ export default {
   data: () => ({
     changeLog: [
       {
+        version: "v0.12.2",
+        dateTime: "2019-09-23 - 2019-09-24",
+        change: [
+          { fix: "修复时间" },
+          { fix: "修复公告管理若干显示bug" },
+          { feature: "增加登出按钮" }
+        ],
+        color: "pink",
+        scale: "small"
+      },
+      {
         version: "v0.12.1",
         dateTime: "2019-08-18 下午",
         change: [
