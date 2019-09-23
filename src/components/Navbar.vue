@@ -39,6 +39,10 @@
           <v-icon right color="blue-grey darken-2">mdi-account</v-icon>
         </v-btn>
       </router-link>
+      <v-btn text color="grey" @click="logout">
+        <span>退出</span>
+        <v-icon right color="black darken-2">mdi-tilde</v-icon>
+      </v-btn>
     </v-toolbar>
   </nav>
 </template>
@@ -58,6 +62,9 @@ export default {
     updateData: function() {
       this.$store.commit("clearData");
       this.$store.commit("getData", "/api/records/");
+    },
+    logout: function() {
+      window.location.replace("/logout");
     }
   },
   computed: {
