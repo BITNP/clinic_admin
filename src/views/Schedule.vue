@@ -68,6 +68,80 @@
                           </v-menu>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
+                          <v-dialog
+                            ref="dialog"
+                            v-model="startTime_dialog"
+                            :return-value.sync="editedItem.startTime"
+                            persistent
+                            width="290px"
+                          >
+                            <template v-slot:activator="{ on }">
+                              <v-text-field
+                                v-model="editedItem.startTime"
+                                label="开始时间"
+                                readonly
+                                v-on="on"
+                              ></v-text-field>
+                            </template>
+                            <v-time-picker
+                              v-if="startTime_dialog"
+                              v-model="editedItem.startTime"
+                              full-width
+                            >
+                              <div class="flex-grow-1"></div>
+                              <v-btn
+                                text
+                                color="primary"
+                                @click="startTime_dialog = false"
+                                >取消</v-btn
+                              >
+                              <v-btn
+                                text
+                                color="primary"
+                                @click="$refs.dialog.save(editedItem.startTime)"
+                                >确定</v-btn
+                              >
+                            </v-time-picker>
+                          </v-dialog>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-dialog
+                            ref="dialog"
+                            v-model="endTime_dialog"
+                            :return-value.sync="editedItem.endTime"
+                            persistent
+                            width="290px"
+                          >
+                            <template v-slot:activator="{ on }">
+                              <v-text-field
+                                v-model="editedItem.endTime"
+                                label="结束时间"
+                                readonly
+                                v-on="on"
+                              ></v-text-field>
+                            </template>
+                            <v-time-picker
+                              v-if="endTime_dialog"
+                              v-model="editedItem.endTime"
+                              full-width
+                            >
+                              <div class="flex-grow-1"></div>
+                              <v-btn
+                                text
+                                color="primary"
+                                @click="endTime_dialog = false"
+                                >取消</v-btn
+                              >
+                              <v-btn
+                                text
+                                color="primary"
+                                @click="$refs.dialog.save(editedItem.startTime)"
+                                >确定</v-btn
+                              >
+                            </v-time-picker>
+                          </v-dialog>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
                           <v-text-field
                             v-model="editedItem.capacity"
                             label="服务容纳量"
@@ -110,6 +184,8 @@ export default {
   data: () => ({
     menu: false,
     dialog: false,
+    startTime_dialog: false,
+    endTIme_dialog: false,
     loading: false,
     headers: [
       {
@@ -118,7 +194,10 @@ export default {
         sortable: false,
         value: "title"
       },
+      { text: "校区", value: "campus" },
       { text: "时间", value: "date" },
+      { text: "开始时间", value: "startTime" },
+      { text: "结束时间", value: "endTime" },
       { text: "容纳量 （人）", value: "capacity" },
       { text: "已报名 （人）", value: "count" },
       { text: "已完成 （人）", value: "finish" },
@@ -130,13 +209,17 @@ export default {
       title: "正常营业",
       campus: "",
       date: "",
-      capacity: 20
+      capacity: 20,
+      startTime: "18:30",
+      endTime: "21:00"
     },
     defaultItem: {
       title: "正常营业",
       campus: "",
       date: "",
-      capacity: 20
+      capacity: 20,
+      startTime: "18:30",
+      endTime: "21:00"
     }
   }),
 
