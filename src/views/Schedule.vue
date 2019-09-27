@@ -31,9 +31,16 @@
                       <v-row>
                         <v-col cols="12" sm="6" md="4">
                           <v-text-field
-                            v-model="editedItem.name"
+                            v-model="editedItem.title"
                             label="服务描述"
                           ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-select
+                            :items="campus"
+                            v-model="editedItem.campus"
+                            label="校区"
+                          ></v-select>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                           <v-menu
@@ -47,14 +54,14 @@
                           >
                             <template v-slot:activator="{ on }">
                               <v-text-field
-                                v-model="editedItem.start"
+                                v-model="editedItem.date"
                                 label="日期"
                                 readonly
                                 v-on="on"
                               ></v-text-field>
                             </template>
                             <v-date-picker
-                              v-model="editedItem.start"
+                              v-model="editedItem.date"
                               :allowed-dates="valid_dates"
                               @input="menu = false"
                             ></v-date-picker>
@@ -109,9 +116,9 @@ export default {
         text: "服务描述",
         align: "left",
         sortable: false,
-        value: "name"
+        value: "title"
       },
-      { text: "时间", value: "start" },
+      { text: "时间", value: "date" },
       { text: "容纳量 （人）", value: "capacity" },
       { text: "已报名 （人）", value: "count" },
       { text: "已完成 （人）", value: "finish" },
@@ -120,13 +127,15 @@ export default {
     dates: [],
     editedIndex: -1,
     editedItem: {
-      name: "正常营业",
-      start: "",
+      title: "正常营业",
+      campus: "",
+      date: "",
       capacity: 20
     },
     defaultItem: {
-      name: "正常营业",
-      start: "",
+      title: "正常营业",
+      campus: "",
+      date: "",
       capacity: 20
     }
   }),
@@ -134,6 +143,13 @@ export default {
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "新建服务时间" : "编辑服务时间";
+    },
+    campus() {
+      return this.$store.state.campus;
+    },
+    user_campus() {
+      // 返回用户所在校区，新建时间的时候，作为默认值
+      return this.$store.state.user.campus;
     }
   },
 
@@ -155,6 +171,9 @@ export default {
         .then(({ data }) => {
           this.dates = data;
           this.loading = false;
+          // console.log(this.user_campus);
+          this.defaultItem.campus = this.user_campus;
+          this.editedItem.campus = this.user_campus;
         })
         .catch(({ response }) => {
           this.$store.commit("popError", response.data);
@@ -192,7 +211,7 @@ export default {
       }, 300);
     },
     valid_dates(val) {
-      let ds = this.dates.map(d => d.start);
+      let ds = this.dates.map(d => d.date);
       return (
         new Date(val) >= new Date(new Date().toDateString()) &&
         !ds.includes(val)
@@ -207,10 +226,10 @@ export default {
           .put(this.editedItem.url, {
             ...this.editedItem
           })
-          .then(({ statusCode }) => {
+          .then(({ statusCode, data }) => {
             this.$store.commit("popSuccess", "修改成功");
 
-            Object.assign(this.dates[this.editedIndex], this.editedItem);
+            Object.assign(this.dates[this.editedIndex], data);
             this.close();
           })
           .catch(({ response }) => {
@@ -223,11 +242,9 @@ export default {
           .post("/api/date/", {
             ...this.editedItem
           })
-          .then(({ statusCode }) => {
+          .then(({ statusCode, data }) => {
             this.$store.commit("popSuccess", "创建成功");
-            this.editedItem.count = 0;
-            this.editedItem.finish = 0;
-            this.dates.push(this.editedItem);
+            this.dates.push(data);
             this.close();
           })
           .catch(({ response }) => {

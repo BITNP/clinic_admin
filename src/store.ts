@@ -17,6 +17,8 @@ export default new Vuex.Store({
       loading: true,
       color: "blue"
     },
+    // 校区表 key: url, value: rest of them
+    campus: [],
     dataStore: {
       next: null
     },
@@ -68,7 +70,24 @@ export default new Vuex.Store({
         })
         .finally(() => null);
     },
+    getCampus(state) {
+      // initualize campus
+      axios
+        .get("/api/campus")
+        .then(({ data }) => {
+          // console.group("Campus");
+          // console.log(data);
+          let _t = data.map((v: any) => v.name);
+          // console.log(_t);
 
+          state.campus = _t;
+          // console.log(state.campus);
+          // console.groupEnd();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     getUser(state, user) {
       // save user data to store.js
       state.user = user;
@@ -226,6 +245,7 @@ export default new Vuex.Store({
         .then(response => {
           commit("getUser", response.data);
           commit("getWorkers");
+          commit("getCampus");
           commit("getData", "/api/records/");
         })
         .catch(error => console.log(error))
