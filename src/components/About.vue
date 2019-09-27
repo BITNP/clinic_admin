@@ -37,6 +37,16 @@ export default {
   data: () => ({
     changeLog: [
       {
+        version: "v0.13.0",
+        dateTime: "2019-09-27",
+        change: [
+          { fix: "修复时间中因为后台api改变产生的break" },
+          { feature: "增加开始与结束时间，细化服务信息" }
+        ],
+        color: "yellow",
+        scale: "small"
+      },
+      {
         version: "v0.12.2",
         dateTime: "2019-09-23 - 2019-09-24",
         change: [
