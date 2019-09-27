@@ -1,7 +1,7 @@
 <template>
   <v-container fluid fill-height>
-    <v-row>
-      <v-col>
+    <v-row justify="center">
+      <v-col cols="12">
         <v-expansion-panels>
           <v-expansion-panel readonly>
             <v-expansion-panel-header py-0>
@@ -41,7 +41,8 @@
               </v-row>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-card flat>
+              <Record :record="r"></Record>
+              <v-card flat v-if="false">
                 <!-- <v-text-field label="Regular" v-model="r.status"></v-text-field> -->
                 <v-card-text>
                   <v-row>
@@ -63,9 +64,9 @@
                               :color="ICON_COLOR[text_render_item]"
                               >{{ ICON_LIST[text_render_item] }}</v-icon
                             >
-                            <span class="title font-weight-light">{{
-                              KEY_TRANSLATION[text_render_item]
-                            }}</span>
+                            <span class="title font-weight-light">
+                              {{ KEY_TRANSLATION[text_render_item] }}
+                            </span>
                           </v-card-title>
                           <v-card-text>
                             <p>
@@ -99,9 +100,9 @@
                               :color="ICON_COLOR[input_render_item]"
                               >{{ ICON_LIST[input_render_item] }}</v-icon
                             >
-                            <span class="title font-weight-light">{{
-                              KEY_TRANSLATION[input_render_item]
-                            }}</span>
+                            <span class="title font-weight-light">
+                              {{ KEY_TRANSLATION[input_render_item] }}
+                            </span>
                           </v-card-title>
                           <v-card-text>
                             <v-text-field
@@ -122,12 +123,12 @@
                     >
                       <v-card hover height="100%">
                         <v-card-title>
-                          <v-icon large left :color="ICON_COLOR['worker']">
-                            {{ ICON_LIST["worker"] }}
-                          </v-icon>
-                          <span class="title font-weight-light">{{
-                            KEY_TRANSLATION["worker"]
-                          }}</span>
+                          <v-icon large left :color="ICON_COLOR['worker']">{{
+                            ICON_LIST["worker"]
+                          }}</v-icon>
+                          <span class="title font-weight-light">
+                            {{ KEY_TRANSLATION["worker"] }}
+                          </span>
                         </v-card-title>
                         <v-card-text>
                           <!-- :hint="" -->
@@ -200,8 +201,15 @@
           </v-expansion-panel>
         </v-expansion-panels>
       </v-col>
-      <v-col cols="12" class="text-xs-center mt-1">
-        <v-btn text dark v-if="hasNext" color="teal" @click="next(hasNext)"
+      <v-col cols="3" class="text-xs-center mt-1">
+        <v-btn
+          text
+          block
+          rounded
+          dark
+          v-if="hasNext"
+          color="teal"
+          @click="next(hasNext)"
           >更多</v-btn
         >
       </v-col>
@@ -210,7 +218,12 @@
 </template>
 
 <script>
+import Record from "@/components/Record";
+
 export default {
+  components: {
+    Record
+  },
   data: () => ({
     WORKING_STATUS: [0, 1, 2, 4, 5],
     FINISHED_STATUS: [3, 6, 7, 8],
@@ -344,15 +357,20 @@ export default {
           .post("/api/records/", {
             ...record,
             status: 0,
+            appointment_time: new Date(
+              new Date().getTime + 24 * 60 * 60 * 1000
+            ).toLocaleDateString(),
             worker: null,
             arrive_time: null
           })
           .then(response => {
             this.$store.commit("popSuccess", "成功创建新工单");
+            // 需要用户手动更新视图
           })
           .catch(error => {
             console.log(error);
             this.$store.commit("popError", "未能成功创建工单");
+            return;
           })
           .finally(() => this.$store.commit("loaded"));
       }
@@ -424,9 +442,7 @@ export default {
     users() {
       return this.$store.state.users;
     }
-  },
-  mounted() {},
-  created() {}
+  }
 };
 </script>
 

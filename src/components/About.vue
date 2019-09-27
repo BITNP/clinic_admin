@@ -37,6 +37,22 @@ export default {
   data: () => ({
     changeLog: [
       {
+        version: "v0.13.1",
+        dateTime: "2019-09-28 凌晨",
+        change: [
+          { refactor: "重构工单的列表渲染模块，分离组件" },
+          { fix: "修复不从分的状态转移判断" },
+          { fix: "修复user界面的icon显示问题" },
+          { feature: "增加撤销功能“后悔药”" },
+          { feature: "默认修理人为自己" },
+          { fix: "修复若干不一致性问题" },
+          { fix: "‘更多’按钮居中" },
+          { feature: "获取数据时也有进度条了" }
+        ],
+        color: "deep-purple",
+        scale: "large"
+      },
+      {
         version: "v0.13.0",
         dateTime: "2019-09-27",
         change: [

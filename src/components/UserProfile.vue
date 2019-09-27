@@ -78,10 +78,10 @@
                     color="grey lighten-1"
                     v-if="item.username != user.username"
                   >
-                    star_border
+                    mdi-star_border
                   </v-icon>
                   <v-icon v-else color="yellow darken-2">
-                    star
+                    mdi-star
                   </v-icon>
                 </v-list-item-action>
               </v-list-item>

@@ -10,7 +10,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    version: "0.13.0",
+    version: "0.13.1",
     count: 0,
     drawer: false,
     loading: {
@@ -73,7 +73,7 @@ export default new Vuex.Store({
     getCampus(state) {
       // initualize campus
       axios
-        .get("/api/campus")
+        .get("/api/campus/")
         .then(({ data }) => {
           // console.group("Campus");
           // console.log(data);
@@ -109,7 +109,7 @@ export default new Vuex.Store({
     },
     getData(state, url) {
       // 获取data，并更新缓存
-
+      state.loading.loading = true;
       axios
         .get(url, {
           params: {
@@ -160,6 +160,7 @@ export default new Vuex.Store({
           };
         })
         .finally(() => {
+          state.loading.loading = false;
           console.log(state.users);
         });
     },
@@ -242,8 +243,8 @@ export default new Vuex.Store({
       commit("loading");
       axios
         .get("/api/user/")
-        .then(response => {
-          commit("getUser", response.data);
+        .then(({ data }) => {
+          commit("getUser", data);
           commit("getWorkers");
           commit("getCampus");
           commit("getData", "/api/records/");
