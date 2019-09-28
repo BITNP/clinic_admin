@@ -231,7 +231,8 @@ export default new Vuex.Store({
     updateUser({ commit }) {
       commit("loading");
       commit("updateUser", {
-        thenFun: () => commit("popSuccess", "提交成功"),
+        thenFun: () => {
+          commit("popSuccess", "提交成功")},
         catchFun: () => {
           // console.log(error);
           commit("popError", "提交失败");

@@ -35,9 +35,14 @@ export default {
       {
         version: "v0.13.2",
         dateTime: "2019-09-28",
-        change: [{ fix: "工单号零填充" }, { feature: "增加三种过滤功能" }],
+        change: [
+          { fix: "工单号零填充" },
+          { feature: "增加三种过滤功能" },
+          { feature: "更直观的修改个人信息方式" },
+          { feature: "可以修改自己的校区了" }
+        ],
         color: "deep-purple",
-        scale: "middle"
+        scale: "large"
       },
       {
         version: "v0.13.1",
