@@ -16,12 +16,8 @@
             <v-list subheader one-line>
               <v-list-item v-for="(item, ind) in c.change" :key="ind">
                 <v-list-item-content>
-                  <v-list-item-title>
-                    {{ Object.keys(item)[0] }}
-                  </v-list-item-title>
-                  <v-list-item-subtitle>
-                    {{ Object.values(item)[0] }}
-                  </v-list-item-subtitle>
+                  <v-list-item-title>{{ Object.keys(item)[0] }}</v-list-item-title>
+                  <v-list-item-subtitle>{{ Object.values(item)[0] }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -36,6 +32,13 @@
 export default {
   data: () => ({
     changeLog: [
+      {
+        version: "v0.13.2",
+        dateTime: "2019-09-28",
+        change: [{ fix: "工单号零填充" }, { feature: "增加三种过滤功能" }],
+        color: "deep-purple",
+        scale: "middle"
+      },
       {
         version: "v0.13.1",
         dateTime: "2019-09-28 凌晨",
