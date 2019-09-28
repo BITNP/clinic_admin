@@ -17,9 +17,7 @@
               <v-spacer></v-spacer>
               <v-dialog v-model="dialog" max-width="500px">
                 <template v-slot:activator="{ on }">
-                  <v-btn color="primary" dark class="mb-2" v-on="on"
-                    >新建服务时间</v-btn
-                  >
+                  <v-btn color="primary" dark class="mb-2" v-on="on">新建服务时间</v-btn>
                 </template>
                 <v-card>
                   <v-card-title>
@@ -30,17 +28,10 @@
                     <v-container>
                       <v-row>
                         <v-col cols="12" sm="6" md="4">
-                          <v-text-field
-                            v-model="editedItem.title"
-                            label="服务描述"
-                          ></v-text-field>
+                          <v-text-field v-model="editedItem.title" label="服务描述"></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
-                          <v-select
-                            :items="campus"
-                            v-model="editedItem.campus"
-                            label="校区"
-                          ></v-select>
+                          <v-select :items="campus" v-model="editedItem.campus" label="校区"></v-select>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                           <v-menu
@@ -53,12 +44,7 @@
                             min-width="290px"
                           >
                             <template v-slot:activator="{ on }">
-                              <v-text-field
-                                v-model="editedItem.date"
-                                label="日期"
-                                readonly
-                                v-on="on"
-                              ></v-text-field>
+                              <v-text-field v-model="editedItem.date" label="日期" readonly v-on="on"></v-text-field>
                             </template>
                             <v-date-picker
                               v-model="editedItem.date"
@@ -89,18 +75,12 @@
                               full-width
                             >
                               <div class="flex-grow-1"></div>
-                              <v-btn
-                                text
-                                color="primary"
-                                @click="startTime_dialog = false"
-                                >取消</v-btn
-                              >
+                              <v-btn text color="primary" @click="startTime_dialog = false">取消</v-btn>
                               <v-btn
                                 text
                                 color="primary"
                                 @click="$refs.dialog.save(editedItem.startTime)"
-                                >确定</v-btn
-                              >
+                              >确定</v-btn>
                             </v-time-picker>
                           </v-dialog>
                         </v-col>
@@ -126,26 +106,17 @@
                               full-width
                             >
                               <div class="flex-grow-1"></div>
-                              <v-btn
-                                text
-                                color="primary"
-                                @click="endTime_dialog = false"
-                                >取消</v-btn
-                              >
+                              <v-btn text color="primary" @click="endTime_dialog = false">取消</v-btn>
                               <v-btn
                                 text
                                 color="primary"
                                 @click="$refs.dialog.save(editedItem.startTime)"
-                                >确定</v-btn
-                              >
+                              >确定</v-btn>
                             </v-time-picker>
                           </v-dialog>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
-                          <v-text-field
-                            v-model="editedItem.capacity"
-                            label="服务容纳量"
-                          ></v-text-field>
+                          <v-text-field v-model="editedItem.capacity" label="服务容纳量"></v-text-field>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -153,9 +124,7 @@
 
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="close"
-                      >Cancel</v-btn
-                    >
+                    <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
                     <v-btn color="blue darken-1" text @click="save">Save</v-btn>
                   </v-card-actions>
                 </v-card>
@@ -163,9 +132,7 @@
             </v-toolbar>
           </template>
           <template v-slot:item.action="{ item }">
-            <v-icon small class="mr-2" @click="editItem(item)"
-              >mdi-pencil</v-icon
-            >
+            <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
             <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
           </template>
           <template v-slot:no-data>
@@ -203,7 +170,6 @@ export default {
       { text: "已完成 （人）", value: "finish" },
       { text: "骚操作", value: "action", sortable: false }
     ],
-    dates: [],
     editedIndex: -1,
     editedItem: {
       title: "正常营业",
@@ -233,6 +199,9 @@ export default {
     user_campus() {
       // 返回用户所在校区，新建时间的时候，作为默认值
       return this.$store.state.user.campus;
+    },
+    dates() {
+      return this.$store.state.dates;
     }
   },
 
@@ -248,19 +217,8 @@ export default {
 
   methods: {
     initialize() {
-      this.loading = true;
-      axios
-        .get("/api/date/")
-        .then(({ data }) => {
-          this.dates = data;
-          this.loading = false;
-          // console.log(this.user_campus);
-          this.defaultItem.campus = this.user_campus;
-          this.editedItem.campus = this.user_campus;
-        })
-        .catch(({ response }) => {
-          this.$store.commit("popError", response.data);
-        });
+      this.defaultItem.campus = this.user_campus;
+      this.editedItem.campus = this.user_campus;
     },
 
     editItem(item) {

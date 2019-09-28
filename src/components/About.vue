@@ -39,7 +39,8 @@ export default {
           { fix: "工单号零填充" },
           { feature: "增加三种过滤功能" },
           { feature: "更直观的修改个人信息方式" },
-          { feature: "可以修改自己的校区了" }
+          { feature: "可以修改自己的校区了" },
+          { fix: "刷新功能可以刷新服务时间数据了（还有员工信息）" }
         ],
         color: "deep-purple",
         scale: "large"

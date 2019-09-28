@@ -62,6 +62,8 @@ export default {
     updateData: function() {
       this.$store.commit("clearData");
       this.$store.commit("getData", "/api/records/");
+      this.$store.commit("getDates");
+      this.$store.commit("getWorkers");
     },
     logout: function() {
       window.location.replace("/logout");

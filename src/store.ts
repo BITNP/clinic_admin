@@ -33,6 +33,7 @@ export default new Vuex.Store({
     },
     users: {},
     workers: [],
+    dates: [],
     snackbar: {
       text: "Done",
       display: true,
@@ -164,6 +165,15 @@ export default new Vuex.Store({
           console.log(state.users);
         });
     },
+    getDates(state) {
+      axios
+        .get("/api/date/")
+        .then(({ data }) => {
+          state.dates = data;
+        })
+        .catch(({ response }) => {
+        });
+    },
     fetchUser(state, url) {
       // 获取用户信息,仅当本地不存在时候调用
       axios
@@ -232,7 +242,8 @@ export default new Vuex.Store({
       commit("loading");
       commit("updateUser", {
         thenFun: () => {
-          commit("popSuccess", "提交成功")},
+          commit("popSuccess", "提交成功");
+        },
         catchFun: () => {
           // console.log(error);
           commit("popError", "提交失败");
@@ -248,6 +259,7 @@ export default new Vuex.Store({
           commit("getUser", data);
           commit("getWorkers");
           commit("getCampus");
+          commit("getDates");
           commit("getData", "/api/records/");
         })
         .catch(error => console.log(error))
