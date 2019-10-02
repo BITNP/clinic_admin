@@ -10,7 +10,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    version: "0.13.2",
+    version: "0.13.3",
     count: 0,
     drawer: false,
     loading: {

@@ -16,8 +16,12 @@
             <v-list subheader one-line>
               <v-list-item v-for="(item, ind) in c.change" :key="ind">
                 <v-list-item-content>
-                  <v-list-item-title>{{ Object.keys(item)[0] }}</v-list-item-title>
-                  <v-list-item-subtitle>{{ Object.values(item)[0] }}</v-list-item-subtitle>
+                  <v-list-item-title>{{
+                    Object.keys(item)[0]
+                  }}</v-list-item-title>
+                  <v-list-item-subtitle>{{
+                    Object.values(item)[0]
+                  }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -32,6 +36,13 @@
 export default {
   data: () => ({
     changeLog: [
+      {
+        version: "v0.13.3",
+        dateTime: "2019-10-02",
+        change: [{ fix: "/schedule 中时间选择器无法正常渲染" }],
+        color: "teal lighten-2",
+        scale: "small"
+      },
       {
         version: "v0.13.2",
         dateTime: "2019-09-28",

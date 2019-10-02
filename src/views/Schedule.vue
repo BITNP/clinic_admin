@@ -17,7 +17,9 @@
               <v-spacer></v-spacer>
               <v-dialog v-model="dialog" max-width="500px">
                 <template v-slot:activator="{ on }">
-                  <v-btn color="primary" dark class="mb-2" v-on="on">新建服务时间</v-btn>
+                  <v-btn color="primary" dark class="mb-2" v-on="on"
+                    >新建服务时间</v-btn
+                  >
                 </template>
                 <v-card>
                   <v-card-title>
@@ -28,10 +30,17 @@
                     <v-container>
                       <v-row>
                         <v-col cols="12" sm="6" md="4">
-                          <v-text-field v-model="editedItem.title" label="服务描述"></v-text-field>
+                          <v-text-field
+                            v-model="editedItem.title"
+                            label="服务描述"
+                          ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
-                          <v-select :items="campus" v-model="editedItem.campus" label="校区"></v-select>
+                          <v-select
+                            :items="campus"
+                            v-model="editedItem.campus"
+                            label="校区"
+                          ></v-select>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                           <v-menu
@@ -40,11 +49,15 @@
                             :nudge-right="40"
                             transition="scale-transition"
                             offset-y
-                            full-width
                             min-width="290px"
                           >
                             <template v-slot:activator="{ on }">
-                              <v-text-field v-model="editedItem.date" label="日期" readonly v-on="on"></v-text-field>
+                              <v-text-field
+                                v-model="editedItem.date"
+                                label="日期"
+                                readonly
+                                v-on="on"
+                              ></v-text-field>
                             </template>
                             <v-date-picker
                               v-model="editedItem.date"
@@ -55,7 +68,7 @@
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                           <v-dialog
-                            ref="dialog"
+                            ref="startTime_dialog"
                             v-model="startTime_dialog"
                             :return-value.sync="editedItem.startTime"
                             persistent
@@ -72,21 +85,30 @@
                             <v-time-picker
                               v-if="startTime_dialog"
                               v-model="editedItem.startTime"
-                              full-width
                             >
                               <div class="flex-grow-1"></div>
-                              <v-btn text color="primary" @click="startTime_dialog = false">取消</v-btn>
                               <v-btn
                                 text
                                 color="primary"
-                                @click="$refs.dialog.save(editedItem.startTime)"
-                              >确定</v-btn>
+                                @click="startTime_dialog = false"
+                                >取消</v-btn
+                              >
+                              <v-btn
+                                text
+                                color="primary"
+                                @click="
+                                  $refs.startTime_dialog.save(
+                                    editedItem.startTime
+                                  )
+                                "
+                                >确定</v-btn
+                              >
                             </v-time-picker>
                           </v-dialog>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
                           <v-dialog
-                            ref="dialog"
+                            ref="endTime_dialog"
                             v-model="endTime_dialog"
                             :return-value.sync="editedItem.endTime"
                             persistent
@@ -103,20 +125,30 @@
                             <v-time-picker
                               v-if="endTime_dialog"
                               v-model="editedItem.endTime"
-                              full-width
                             >
                               <div class="flex-grow-1"></div>
-                              <v-btn text color="primary" @click="endTime_dialog = false">取消</v-btn>
                               <v-btn
                                 text
                                 color="primary"
-                                @click="$refs.dialog.save(editedItem.startTime)"
-                              >确定</v-btn>
+                                @click="endTime_dialog = false"
+                                >取消</v-btn
+                              >
+                              <v-btn
+                                text
+                                color="primary"
+                                @click="
+                                  $refs.endTime_dialog.save(editedItem.endTime)
+                                "
+                                >确定</v-btn
+                              >
                             </v-time-picker>
                           </v-dialog>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
-                          <v-text-field v-model="editedItem.capacity" label="服务容纳量"></v-text-field>
+                          <v-text-field
+                            v-model="editedItem.capacity"
+                            label="服务容纳量"
+                          ></v-text-field>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -124,19 +156,23 @@
 
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                    <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                    <v-btn color="blue darken-1" text @click="close"
+                      >取消</v-btn
+                    >
+                    <v-btn color="blue darken-1" text @click="save">保存</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
             </v-toolbar>
           </template>
           <template v-slot:item.action="{ item }">
-            <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+            <v-icon small class="mr-2" @click="editItem(item)"
+              >mdi-pencil</v-icon
+            >
             <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
           </template>
           <template v-slot:no-data>
-            <v-btn color="primary" @click="initialize">Reset</v-btn>
+            <v-btn color="primary" @click="initialize">重置</v-btn>
           </template>
         </v-data-table>
       </v-col>
@@ -152,7 +188,7 @@ export default {
     menu: false,
     dialog: false,
     startTime_dialog: false,
-    endTIme_dialog: false,
+    endTime_dialog: false,
     loading: false,
     headers: [
       {
