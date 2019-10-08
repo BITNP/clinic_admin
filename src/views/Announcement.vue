@@ -43,6 +43,12 @@
                           ></v-select>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
+                          <v-text-field
+                            v-model="editedItem.priority"
+                            label="优先级"
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
                           <v-menu
                             v-model="menu"
                             :close-on-content-click="false"
@@ -103,6 +109,9 @@
               </v-dialog>
             </v-toolbar>
           </template>
+          <template v-slot:item.tag="{ item }">
+            <v-chip>{{ TAG_TYPES_MAP[item.tag] }}</v-chip>
+          </template>
           <template v-slot:item.action="{ item }">
             <v-icon small class="mr-2" @click="editItem(item)"
               >mdi-pencil</v-icon
@@ -135,7 +144,7 @@ export default {
       { text: "免责声明", value: "TOC" },
       { text: "普通公告", value: "AN" }
     ],
-    TYPES_MAP: {
+    TAG_TYPES_MAP: {
       TOC: "免责声明",
       AN: "普通公告"
     },
@@ -147,6 +156,7 @@ export default {
         value: "title"
       },
       { text: "内容", value: "content" },
+      { text: "优先级", value: "priority" },
       { text: "标签", value: "tag" },
       { text: "创建时间", value: "createdTime" },
       { text: "最后修改时间", value: "lastEditedTime" },
@@ -155,9 +165,7 @@ export default {
     ],
     announcements: [],
     editedIndex: -1,
-    editedItem: {
-      tag: "AN"
-    },
+    editedItem: {},
     defaultItem: {
       tag: "AN"
     }
@@ -183,18 +191,12 @@ export default {
     localize(d) {
       d.createdTime = new Date(d.createdTime).toLocaleString();
       d.lastEditedTime = new Date(d.lastEditedTime).toLocaleString();
-      d.tag = this.TYPES_MAP[d.tag];
     },
     initialize() {
       this.loading = true;
       axios
         .get("/api/announcement/")
         .then(({ data }) => {
-          // d => {
-          //   d.createdTime = new Date(d.createdTime).toLocaleString();
-          //   d.lastEditedTime = new Date(d.lastEditedTime).toLocaleString();
-          //   d.tag = this.TYPES_MAP[d.tag];
-          // }
           data.map(this.localize);
           this.announcements = data;
           this.loading = false;
@@ -255,7 +257,6 @@ export default {
           .then(({ data, statusCode }) => {
             this.$store.commit("popSuccess", "修改成功");
 
-            this.editedItem.tag = this.TYPES_MAP[this.editItem.tag];
             this.localize(data);
             Object.assign(this.announcements[this.editedIndex], data);
             this.close();
@@ -274,7 +275,6 @@ export default {
             this.$store.commit("popSuccess", "创建成功");
             this.createdTime = new Date().toLocaleString();
             this.lastEditedTime = new Date().toLocaleString();
-            this.editedItem.tag = this.TYPES_MAP[this.editItem.tag];
             this.localize(data);
             this.announcements.push(data);
             this.close();
