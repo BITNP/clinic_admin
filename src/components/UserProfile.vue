@@ -4,7 +4,9 @@
       <v-col cols="sm">
         <v-card v-ripple class="mx-auto" color="#26c6da" dark>
           <v-card-title>
-            <span class="title font-weight-bold">{{ editable ? "修改" : "" }}用户信息</span>
+            <span class="title font-weight-bold"
+              >{{ editable ? "修改" : "" }}用户信息</span
+            >
             <v-spacer></v-spacer>
             <v-btn text @click="flip">
               <v-icon v-if="!editable">mdi-pencil</v-icon>
@@ -12,7 +14,9 @@
             </v-btn>
           </v-card-title>
 
-          <v-card-text class="headline font-weight-bold">“维修不规范，同学两行泪。”</v-card-text>
+          <v-card-text class="headline font-weight-bold"
+            >“维修不规范，同学两行泪。”</v-card-text
+          >
 
           <v-card-actions>
             <v-row align-center justify-end v-if="!editable">
@@ -37,13 +41,20 @@
             </v-row>
             <v-row v-else>
               <v-col cols="4">
-                <v-text-field label="姓名" v-model="user.realname"></v-text-field>
+                <v-text-field
+                  label="姓名"
+                  v-model="user.realname"
+                ></v-text-field>
               </v-col>
               <v-col cols="4">
                 <v-text-field label="学院" v-model="user.school"></v-text-field>
               </v-col>
               <v-col cols="4">
-                <v-select :items="campus" label="校区" v-model="user.campus"></v-select>
+                <v-select
+                  :items="campus"
+                  label="校区"
+                  v-model="user.campus"
+                ></v-select>
               </v-col>
             </v-row>
             <!-- <span>
@@ -66,31 +77,29 @@
                 <v-list-item-content>
                   <v-list-item-title>{{ item.realname }}</v-list-item-title>
                   <v-list-item-sub-title class="text--primary">
-                    {{
-                    CAMPUS_TRANS[item.campus]
-                    }}
+                    {{ CAMPUS_TRANS[item.campus] }}
                   </v-list-item-sub-title>
                   <v-list-item-sub-title>
-                    {{
-                    item.username
-                    }}
+                    {{ item.username }}
                   </v-list-item-sub-title>
                 </v-list-item-content>
 
                 <v-list-item-action>
                   <v-list-item-action-text>
-                    {{
-                    item.school
-                    }}
+                    {{ item.school }}
                   </v-list-item-action-text>
                   <v-icon
                     color="grey lighten-1"
                     v-if="item.username != user.username"
-                  >mdi-star_border</v-icon>
+                    >mdi-star_border</v-icon
+                  >
                   <v-icon v-else color="yellow darken-2">mdi-star</v-icon>
                 </v-list-item-action>
               </v-list-item>
-              <v-divider v-if="index + 1 < users.length" :key="index"></v-divider>
+              <v-divider
+                v-if="index + 1 < users.length"
+                :key="index"
+              ></v-divider>
             </template>
           </v-list>
         </v-card>

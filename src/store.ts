@@ -17,13 +17,12 @@ export default new Vuex.Store({
       loading: true,
       color: "blue"
     },
-    // 校区表 key: url, value: rest of them
-    campus: [],
+    // 校区表 ['良乡校区', '中关村校区']
+    campus: Array(),
     dataStore: {
       next: null
     },
-    data: [],
-    filteredData: [],
+    data: Array(),
     user: {
       url: "",
       username: "",
@@ -119,7 +118,9 @@ export default new Vuex.Store({
         })
         .then(response => {
           state.dataStore = response.data;
+          console.log(response.data.results);
           state.data = state.data.concat(response.data.results);
+          // fetchList 存放了本地没有具体用户信息的相应url
           let fetchList = new Map();
           response.data.results.forEach((v: any) => {
             if (v.worker && !(state.users as any)[v.worker])
@@ -165,14 +166,18 @@ export default new Vuex.Store({
           console.log(state.users);
         });
     },
+    insertRecord(state, record: object) {
+      // 向总Data中插入一条数据，一般是创建了一个新工单以后调用
+      console.log(record);
+      state.data.unshift(record);
+    },
     getDates(state) {
       axios
         .get("/api/date/")
         .then(({ data }) => {
           state.dates = data;
         })
-        .catch(({ response }) => {
-        });
+        .catch(({ response }) => {});
     },
     fetchUser(state, url) {
       // 获取用户信息,仅当本地不存在时候调用
@@ -193,12 +198,11 @@ export default new Vuex.Store({
         });
     },
     ifNotFetchUsers(state, url) {
+      // 如果本地不存在，则获取该User，比上边的函数多了一个判断
       if ((state.users as any)[url]) return;
       axios
         .get(url)
         .then(response => {
-          // console.log('FETCHUSER:[url]:' + url);
-          // state.users[url] = response.data; SEE doc
           Vue.set(state.users, url, response.data);
         })
         .catch(error => {
@@ -264,6 +268,10 @@ export default new Vuex.Store({
         })
         .catch(error => console.log(error))
         .finally(() => commit("loaded"));
+    },
+    insertRecord({ commit }, record) {
+      if (record.user) commit("ifNotFetchUsers", record.user);
+      commit("insertRecord", record);
     }
   }
 });

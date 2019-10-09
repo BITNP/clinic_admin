@@ -42,9 +42,6 @@
               chips
             ></v-combobox>
           </v-col>
-          <v-col cols="4" md="6" sm="12">
-            <NewRecord></NewRecord>
-          </v-col>
         </v-row>
       </v-col>
       <v-col cols="12">
@@ -271,12 +268,10 @@
 
 <script>
 import Record from "@/components/Record";
-import NewRecord from "@/components/NewRecord";
 import FlowActionButton from "@/components/FlowActionButton";
 export default {
   components: {
     Record,
-    NewRecord,
     FlowActionButton
   },
   data: () => ({
