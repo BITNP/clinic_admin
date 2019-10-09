@@ -37,6 +37,17 @@ export default {
   data: () => ({
     changeLog: [
       {
+        version: "v0.13.4",
+        dateTime: "2019-10-08 - 2019-10-09",
+        change: [
+          { fix: "加入优先级，修复公告类型显示问题" },
+          { fix: "删除无用的注释代码" },
+          { feature: "可以通过 FAB 新建工单" }
+        ],
+        color: "orange lighten-2",
+        scale: "small"
+      },
+      {
         version: "v0.13.3",
         dateTime: "2019-10-02",
         change: [{ fix: "/schedule 中时间选择器无法正常渲染" }],
