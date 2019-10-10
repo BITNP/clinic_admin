@@ -37,6 +37,13 @@ export default {
   data: () => ({
     changeLog: [
       {
+        version: "v0.13.5",
+        dateTime: "2019-10-10",
+        change: [{ fix: "修复不能在同一时间创建两个校区问题" }],
+        color: "grey lighten-2",
+        scale: "small"
+      },
+      {
         version: "v0.13.4",
         dateTime: "2019-10-08 - 2019-10-09",
         change: [

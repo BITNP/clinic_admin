@@ -288,7 +288,9 @@ export default {
       }, 300);
     },
     valid_dates(val) {
-      let ds = this.dates.map(d => d.date);
+      let ds = this.dates
+        .filter(v => v.campus == this.editedItem.campus)
+        .map(d => d.date);
       return (
         new Date(val) >= new Date(new Date().toDateString()) &&
         !ds.includes(val)
