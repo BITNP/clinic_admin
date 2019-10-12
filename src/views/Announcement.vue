@@ -45,6 +45,8 @@
                         <v-col cols="12" sm="6" md="4">
                           <v-text-field
                             v-model="editedItem.priority"
+                            required
+                            hint="一个正整数"
                             label="优先级"
                           ></v-text-field>
                         </v-col>
@@ -76,6 +78,12 @@
                             ></v-date-picker>
                           </v-menu>
                         </v-col>
+                        <v-col cols="12" sm="12" md="8">
+                          <v-text-field
+                            v-model="editedItem.brief"
+                            label="概要"
+                          ></v-text-field>
+                        </v-col>
                         <v-col cols="12" sm="12" md="12">
                           <v-textarea
                             v-model="editedItem.content"
@@ -94,10 +102,10 @@
                       >预览内容</v-btn
                     >
                     <v-overlay :value="overlay">
-                      <v-btn icon @click="overlay = false">
+                      <vue-markdown>{{ editedItem.content }}</vue-markdown>
+                      <v-btn @click="overlay = false">
                         <v-icon>mdi-close</v-icon>
                       </v-btn>
-                      <vue-markdown>{{ editedItem.content }}</vue-markdown>
                     </v-overlay>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" text @click="close"
@@ -142,11 +150,13 @@ export default {
     loading: false,
     types: [
       { text: "免责声明", value: "TOC" },
-      { text: "普通公告", value: "AN" }
+      { text: "普通公告", value: "AN" },
+      { text: "置顶公告", value: "TA" }
     ],
     TAG_TYPES_MAP: {
       TOC: "免责声明",
-      AN: "普通公告"
+      AN: "普通公告",
+      TA: "置顶公告"
     },
     headers: [
       {
@@ -155,7 +165,7 @@ export default {
         sortable: false,
         value: "title"
       },
-      { text: "内容", value: "content" },
+      { text: "概要", value: "brief" },
       { text: "优先级", value: "priority" },
       { text: "标签", value: "tag" },
       { text: "创建时间", value: "createdTime" },
