@@ -27,7 +27,7 @@
       </v-row>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
-      <v-card flat>
+      <v-card>
         <v-card-text>
           <v-row>
             <!-- TEXT显示的内容 -->

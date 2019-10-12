@@ -42,6 +42,22 @@
               chips
             ></v-combobox>
           </v-col>
+          <v-col cols="4" md="6" sm="12">
+            <v-row>
+              <v-col cols="9">
+                <v-select
+                  v-model="orderOption"
+                  :items="ORDER_OPTIONS"
+                  label="排序"
+                  item-text="text"
+                  item-value="value"
+                ></v-select>
+              </v-col>
+              <v-col cols="3">
+                <v-checkbox v-model="ASC_ORDER" label="升序"></v-checkbox>
+              </v-col>
+            </v-row>
+          </v-col>
         </v-row>
       </v-col>
       <v-col cols="12">
@@ -87,20 +103,48 @@
 <script>
 import Record from "@/components/Record";
 import FlowActionButton from "@/components/FlowActionButton";
+
+let cmpHelper = function(attrName, less = false) {
+  if (less) {
+    return (a, b) => {
+      if (a[attrName] > b[attrName]) {
+        return 1;
+      } else if (a[attrName] < b[attrName]) {
+        return -1;
+      } else return 0;
+    };
+  } else {
+    return (a, b) => {
+      if (a[attrName] > b[attrName]) {
+        return -1;
+      } else if (a[attrName] < b[attrName]) {
+        return 1;
+      } else return 0;
+    };
+  }
+};
+
 export default {
   components: {
     Record,
     FlowActionButton
   },
   data: () => ({
+    itemsPerPageOptions: [4, 8, 12],
     filterBar: false,
     filterText: "",
     filterColor: "",
+    orderOption: "id",
     dateRanges: ["往昔", "今日", "翌日", "彼岸"],
     selectedDateRanges: [0, 3],
     selectedStatus: [], // 在 created 中初始化
     // WORKING_STATUS: [0, 1, 2, 4, 5],
     // FINISHED_STATUS: [3, 6, 7, 8],
+    ORDER_OPTIONS: [
+      { text: "工单号", value: "id" },
+      { text: "预约时间", value: "appointment_time" }
+    ],
+    ASC_ORDER: false,
     STATUS_LIST: [
       // 供 filter 中的combobox使用
       { value: 0, text: "上单问题未解决" },
@@ -176,6 +220,11 @@ export default {
       {
         let _t = this.selectedStatus.map(v => v.value);
         result = result.filter(v => _t.includes(v.status));
+      }
+      if (this.orderOption) {
+        // 排序
+        let sortby = cmpHelper(this.orderOption, this.ASC_ORDER);
+        result = result.sort(sortby);
       }
       return result;
     },
