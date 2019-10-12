@@ -1,154 +1,183 @@
 <template>
-  <v-card flat>
-    <v-card-text>
-      <!-- {{ STATUS_MAP[record.status] }}
-      <v-spacer></v-spacer>
-      {{ history.map(a => a.status) }}
-      <v-spacer></v-spacer>
-      {{ workers }} -->
-      <v-row>
-        <!-- TEXT显示的内容 -->
-        <template v-for="(text_render_item, ii) in TEXT_RENDER_LIST">
-          <v-col
-            cols="3"
-            pa-0
-            :key="ii + 'j'"
-            v-if="DISPLAY_LIST[text_render_item].includes(record.status)"
-          >
-            <v-card hover height="100%">
-              <v-card-title>
-                <v-icon large left :color="ICON_COLOR[text_render_item]">
-                  {{ ICON_LIST[text_render_item] }}
-                </v-icon>
-                <span class="title font-weight-light">
-                  {{ KEY_TRANSLATION[text_render_item] }}
-                </span>
-              </v-card-title>
-              <v-card-text>
-                <p>
-                  {{
-                    text_render_item != "worker"
-                      ? record[text_render_item] || "无"
-                      : record[text_render_item]
-                      ? url2User(record[text_render_item])["realname"]
-                      : ""
-                  }}
-                </p>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </template>
-
-        <!-- INPUT显示的内容 -->
-        <template v-for="(input_render_item, ii) in INPUT_RENDER_LIST">
-          <v-col
-            cols="3"
-            pa-0
-            :key="ii + 'k'"
-            v-if="INPUT_LIST[input_render_item].includes(record.status)"
-          >
-            <v-card hover height="100%">
-              <v-card-title>
-                <v-icon large left :color="ICON_COLOR[input_render_item]">{{
-                  ICON_LIST[input_render_item]
-                }}</v-icon>
-                <span class="title font-weight-light">{{
-                  KEY_TRANSLATION[input_render_item]
-                }}</span>
-              </v-card-title>
-              <v-card-text>
-                <v-text-field
-                  v-bind:label="INPUT_HELPER_TEXT[input_render_item]"
-                  v-model="record[input_render_item]"
-                ></v-text-field>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </template>
-        <!-- select显示的内容 -->
-        <!-- 这里不适用 template 列表渲染，是因为 select 具有特殊性，需要特殊处理 -->
+  <v-expansion-panel>
+    <v-expansion-panel-header py-0>
+      <v-row no-gutters>
         <v-col
-          cols="3"
-          pa-0
-          v-if="SELECT_LIST['worker'].includes(record.status)"
-          :key="ii + 'kj'"
+          v-for="(item, i) in [
+            record.id.toString().padStart(8, '0'),
+            url2User(record.user)['username'],
+            record.realname +
+              (record.phone_num ? ' - ' + record.phone_num : ''),
+            date(record.appointment_time),
+            dateTime(record.arrive_time),
+            STATUS_MAP[record.status]
+          ]"
+          :key="i + 'i'"
         >
-          <v-card hover height="100%">
-            <v-card-title>
-              <v-icon large left :color="ICON_COLOR['worker']">
-                {{ ICON_LIST["worker"] }}
-              </v-icon>
-              <span class="title font-weight-light">{{
-                KEY_TRANSLATION["worker"]
-              }}</span>
-            </v-card-title>
-            <v-card-text>
-              <!-- :hint="" -->
-              <v-select
-                v-model="record.worker"
-                :items="workers"
-                item-text="realname"
-                item-value="url"
-                label="Select"
-                persistent-hint
-                single-line
-              ></v-select>
-              <!-- {{ r.worker }} -->
-            </v-card-text>
-          </v-card>
+          <div
+            :class="{
+              'grey--text': FINISHED_STATUS.includes(record.status),
+              'brown--text': i == 5
+            }"
+            class="margin-fix text-truncate"
+          >
+            {{ item || "无" }}
+          </div>
         </v-col>
       </v-row>
-    </v-card-text>
-    <v-card-actions>
-      <v-row>
-        <v-col v-if="history.length > 0">
-          <v-btn @click="regret" dark block color="black">
-            后悔药
-            <v-icon dark>mdi-back</v-icon>
-          </v-btn>
-        </v-col>
-        <v-col v-if="5 <= record.status && record.status <= 8">
-          <v-btn
-            @click="updateRecord(record.url, record.status, [], record, true)"
-            dark
-            block
-            :color="record.is_taken ? 'success' : 'warning'"
-          >
-            {{ record.is_taken ? "已取走" : "未取走" }}
-            <v-icon dark>mdi-{{ record.is_taken ? "check" : "close" }}</v-icon>
-          </v-btn>
-        </v-col>
-        <!-- 发送短信通知 按钮 -->
-        <!-- <v-col v-if="5 <= record.status && record.status <= 8 && record.is_taken == false">
+    </v-expansion-panel-header>
+    <v-expansion-panel-content>
+      <v-card flat>
+        <v-card-text>
+          <v-row>
+            <!-- TEXT显示的内容 -->
+            <template v-for="(text_render_item, ii) in TEXT_RENDER_LIST">
+              <v-col
+                cols="3"
+                pa-0
+                :key="ii + 'j'"
+                v-if="DISPLAY_LIST[text_render_item].includes(record.status)"
+              >
+                <v-card hover height="100%">
+                  <v-card-title>
+                    <v-icon large left :color="ICON_COLOR[text_render_item]">{{
+                      ICON_LIST[text_render_item]
+                    }}</v-icon>
+                    <span class="title font-weight-light">{{
+                      KEY_TRANSLATION[text_render_item]
+                    }}</span>
+                  </v-card-title>
+                  <v-card-text>
+                    <p>
+                      {{
+                        text_render_item != "worker"
+                          ? record[text_render_item] || "无"
+                          : record[text_render_item]
+                          ? url2User(record[text_render_item])["realname"]
+                          : ""
+                      }}
+                    </p>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </template>
+
+            <!-- INPUT显示的内容 -->
+            <template v-for="(input_render_item, ii) in INPUT_RENDER_LIST">
+              <v-col
+                cols="3"
+                pa-0
+                :key="ii + 'k'"
+                v-if="INPUT_LIST[input_render_item].includes(record.status)"
+              >
+                <v-card hover height="100%">
+                  <v-card-title>
+                    <v-icon large left :color="ICON_COLOR[input_render_item]">
+                      {{ ICON_LIST[input_render_item] }}
+                    </v-icon>
+                    <span class="title font-weight-light">
+                      {{ KEY_TRANSLATION[input_render_item] }}
+                    </span>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-text-field
+                      v-bind:label="INPUT_HELPER_TEXT[input_render_item]"
+                      v-model="record[input_render_item]"
+                    ></v-text-field>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </template>
+            <!-- select显示的内容 -->
+            <!-- 这里不适用 template 列表渲染，是因为 select 具有特殊性，需要特殊处理 -->
+            <v-col
+              cols="3"
+              pa-0
+              v-if="SELECT_LIST['worker'].includes(record.status)"
+              :key="ii + 'kj'"
+            >
+              <v-card hover height="100%">
+                <v-card-title>
+                  <v-icon large left :color="ICON_COLOR['worker']">{{
+                    ICON_LIST["worker"]
+                  }}</v-icon>
+                  <span class="title font-weight-light">
+                    {{ KEY_TRANSLATION["worker"] }}
+                  </span>
+                </v-card-title>
+                <v-card-text>
+                  <!-- :hint="" -->
+                  <v-select
+                    v-model="record.worker"
+                    :items="workers"
+                    item-text="realname"
+                    item-value="url"
+                    label="Select"
+                    persistent-hint
+                    single-line
+                  ></v-select>
+                  <!-- {{ r.worker }} -->
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <v-card-actions>
+          <v-row>
+            <v-col v-if="history.length > 0">
+              <v-btn @click="regret" dark block color="black">
+                后悔药
+                <v-icon dark>mdi-back</v-icon>
+              </v-btn>
+            </v-col>
+            <v-col v-if="5 <= record.status && record.status <= 8">
+              <v-btn
+                @click="
+                  updateRecord(record.url, record.status, [], record, true)
+                "
+                dark
+                block
+                :color="record.is_taken ? 'success' : 'warning'"
+              >
+                {{ record.is_taken ? "已取走" : "未取走" }}
+                <v-icon dark
+                  >mdi-{{ record.is_taken ? "check" : "close" }}</v-icon
+                >
+              </v-btn>
+            </v-col>
+            <!-- 发送短信通知 按钮 -->
+            <!-- <v-col v-if="5 <= record.status && record.status <= 8 && record.is_taken == false">
           <v-btn @click="sendSMS(record.url)" dark block color="cyan">
             短信通知取回电脑
             <v-icon dark>mdi-message</v-icon>
           </v-btn>
-        </v-col>-->
-        <template v-for="(item, index) in BUTTON_LIST[record.status]">
-          <!--     updateRecord(url, to_status, fields = [], record = {})  -->
-          <v-col :key="index + 'r'">
-            <v-btn
-              @click="
-                updateRecord(
-                  record.url,
-                  TO_STATUS_LIST[record.status][index],
-                  [],
-                  record
-                )
-              "
-              dark
-              block
-              :color="item.color"
-            >
-              {{ item.label }}
-              <v-icon dark right>mdi-{{ item.icon }}</v-icon>
-            </v-btn>
-          </v-col>
-        </template>
-      </v-row>
-    </v-card-actions>
-  </v-card>
+            </v-col>-->
+            <template v-for="(item, index) in BUTTON_LIST[record.status]">
+              <!--     updateRecord(url, to_status, fields = [], record = {})  -->
+              <v-col :key="index + 'r'">
+                <v-btn
+                  @click="
+                    updateRecord(
+                      record.url,
+                      TO_STATUS_LIST[record.status][index],
+                      [],
+                      record
+                    )
+                  "
+                  dark
+                  block
+                  :color="item.color"
+                >
+                  {{ item.label }}
+                  <v-icon dark right>mdi-{{ item.icon }}</v-icon>
+                </v-btn>
+              </v-col>
+            </template>
+          </v-row>
+        </v-card-actions>
+      </v-card>
+    </v-expansion-panel-content>
+  </v-expansion-panel>
 </template>
 
 <script>
@@ -381,6 +410,16 @@ export default {
           }
         })
         .catch(e => this.$store.commit("popError", "后悔失败"));
+    },
+    date(d) {
+      if (!d) return "";
+      return new Date(d).toLocaleDateString();
+    },
+    dateTime(ds) {
+      if (!ds) return "";
+      let d = new Date(ds);
+      if (!isNaN(d.getTime())) return d.toLocaleString();
+      return "";
     }
   },
   computed: {
