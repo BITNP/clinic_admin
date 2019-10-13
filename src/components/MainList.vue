@@ -70,9 +70,7 @@
                 </v-col>
               </v-row>
               <template v-slot:actions>
-                <v-icon @click="filterBar = !filterBar" color="primary"
-                  >mdi-apps</v-icon
-                >
+                <v-icon @click="saveLocal" color="primary">mdi-apps</v-icon>
               </template>
             </v-expansion-panel-header>
           </v-expansion-panel>
@@ -130,7 +128,6 @@ export default {
     FlowActionButton
   },
   data: () => ({
-    itemsPerPageOptions: [4, 8, 12],
     filterBar: false,
     filterText: "",
     filterColor: "",
@@ -166,6 +163,20 @@ export default {
       "处理状态"
     ]
   }),
+  mounted() {
+    this.filterText = this.$localStorage.get("filterText", "");
+    this.selectedDateRanges = JSON.parse(
+      this.$localStorage.get("selectedDateRanges")
+    );
+    if (!this.selectedDateRanges) {
+      this.selectedDateRanges = [0, 3];
+    }
+    this.selectedStatus = JSON.parse(this.$localStorage.get("selectedStatus"));
+    if (!this.selectedStatus) {
+      this.selectedStatus = this.STATUS_LIST;
+    }
+    this.orderOption = this.$localStorage.get("orderOption", "id");
+  },
   methods: {
     next(url) {
       this.$store.commit("getData", url);
@@ -177,6 +188,19 @@ export default {
       } else {
         this.filterColor = "warning";
       }
+    },
+    saveLocal() {
+      this.filterBar = !this.filterBar;
+      this.$localStorage.set("filterText", this.filterText);
+      this.$localStorage.set(
+        "selectedDateRanges",
+        JSON.stringify(this.selectedDateRanges)
+      );
+      this.$localStorage.set(
+        "selectedStatus",
+        JSON.stringify(this.selectedStatus)
+      );
+      this.$localStorage.set("orderOption", this.orderOption);
     }
   },
   computed: {
@@ -219,6 +243,7 @@ export default {
       }
       {
         let _t = this.selectedStatus.map(v => v.value);
+        // console.log(_t);
         result = result.filter(v => _t.includes(v.status));
       }
       if (this.orderOption) {
@@ -233,7 +258,7 @@ export default {
     }
   },
   created() {
-    this.selectedStatus = this.STATUS_LIST;
+    // this.selectedStatus = this.STATUS_LIST;
   }
 };
 </script>
