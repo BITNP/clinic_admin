@@ -37,6 +37,24 @@ export default {
   data: () => ({
     changeLog: [
       {
+        version: "v0.13.7",
+        dateTime: "2019-10-13",
+        change: [{ fix: "本地持久化存储过滤参数" }],
+        color: "yellow",
+        scale: "small"
+      },
+      {
+        version: "v0.13.6",
+        dateTime: "2019-10-12",
+        change: [
+          { fix: "修复公告显示问题，隐藏content" },
+          { fix: "抽离组件" },
+          { feature: "表头排序功能" }
+        ],
+        color: "black",
+        scale: "middle"
+      },
+      {
         version: "v0.13.5",
         dateTime: "2019-10-10",
         change: [{ fix: "修复不能在同一时间创建两个校区问题" }],
