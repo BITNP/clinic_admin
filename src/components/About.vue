@@ -41,10 +41,11 @@ export default {
         dateTime: "2019-10-14",
         change: [
           { fix: "增加字数限制提示（没有真正限制提交）" },
-          { feature: "扔给明天以后自动插入新工单" }
+          { feature: "扔给明天以后自动插入新工单" },
+          { fix: "增大了公告编辑框的宽度以方便显示" }
         ],
         color: "white",
-        scale: "small"
+        scale: "middle"
       },
       {
         version: "v0.13.7",
