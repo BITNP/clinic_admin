@@ -33,6 +33,7 @@
                           <v-text-field
                             v-model="editedItem.title"
                             label="标题"
+                            counter="20"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
@@ -46,6 +47,7 @@
                           <v-text-field
                             v-model="editedItem.priority"
                             required
+                            counter="3"
                             hint="一个正整数"
                             label="优先级"
                           ></v-text-field>
@@ -82,6 +84,7 @@
                           <v-text-field
                             v-model="editedItem.brief"
                             label="概要"
+                            counter="64"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="12" md="12">

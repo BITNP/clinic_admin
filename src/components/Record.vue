@@ -83,6 +83,7 @@
                     <v-text-field
                       v-bind:label="INPUT_HELPER_TEXT[input_render_item]"
                       v-model="record[input_render_item]"
+                      :counter="INPUT_COUNTER[input_render_item]"
                     ></v-text-field>
                   </v-card-text>
                 </v-card>
@@ -221,6 +222,13 @@ export default {
       reject_reason: "只有驳回时才会提交",
       model: "更专业的记录"
     },
+    INPUT_COUNTER: {
+      model: 200,
+      worker_description: 600,
+      description: 600,
+      method: 600,
+      reject_reason: 600
+    },
     ICON_LIST: {
       description: "mdi-text",
       model: "mdi-laptop",
@@ -312,6 +320,7 @@ export default {
       this.$store.commit("loading");
 
       if (to_status == 8 && record.status != 8) {
+        // 扔给明天
         this.$http
           .post("/api/records/", {
             ...record,
@@ -327,7 +336,8 @@ export default {
           })
           .then(response => {
             this.$store.commit("popSuccess", "成功创建新工单");
-            // 需要用户手动更新视图
+            // 不需要用户手动更新视图
+            this.$store.dispatch("insertRecord", response.data);
             // 更新本个工单
             this.$http
               .put(url, { ...record, status: to_status })

@@ -44,10 +44,15 @@
                 <v-text-field
                   label="姓名"
                   v-model="user.realname"
+                  counter="50"
                 ></v-text-field>
               </v-col>
               <v-col cols="4">
-                <v-text-field label="学院" v-model="user.school"></v-text-field>
+                <v-text-field
+                  label="学院"
+                  counter="20"
+                  v-model="user.school"
+                ></v-text-field>
               </v-col>
               <v-col cols="4">
                 <v-select

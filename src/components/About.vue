@@ -37,6 +37,16 @@ export default {
   data: () => ({
     changeLog: [
       {
+        version: "v0.13.8",
+        dateTime: "2019-10-14",
+        change: [
+          { fix: "增加字数限制提示（没有真正限制提交）" },
+          { feature: "扔给明天以后自动插入新工单" }
+        ],
+        color: "white",
+        scale: "small"
+      },
+      {
         version: "v0.13.7",
         dateTime: "2019-10-13",
         change: [{ fix: "本地持久化存储过滤参数" }],
