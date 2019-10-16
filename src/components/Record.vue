@@ -1,5 +1,6 @@
 <template>
-  <v-expansion-panel>
+  <!-- readonly 是没有任何需要编辑的状态，就不展开了 -->
+  <v-expansion-panel :readonly="record.status === 9">
     <v-expansion-panel-header py-0>
       <v-row no-gutters>
         <v-col
@@ -186,7 +187,7 @@ export default {
   data: () => ({
     history: [], // a stack for restoring the status
     WORKING_STATUS: [0, 1, 2, 4, 5],
-    FINISHED_STATUS: [3, 6, 7, 8],
+    FINISHED_STATUS: [3, 6, 7, 8, 9],
     LIST_TITLE: [
       "工单号",
       "学号",
@@ -205,14 +206,15 @@ export default {
       6: "已解决问题",
       7: "建议返厂",
       8: "交给明天解决",
+      9: "未到诊所",
       _: "error"
     },
     TO_STATUS_LIST: {
       0: [5],
       1: [3, 2],
-      2: [5],
+      2: [9, 5],
       3: [],
-      4: [5],
+      4: [9, 5],
       5: [7, 8, 6]
     },
     INPUT_HELPER_TEXT: {
@@ -289,9 +291,15 @@ export default {
         { label: "驳回预约", color: "error", icon: "cancel" },
         { label: "确认受理", color: "primary", icon: "check" }
       ],
-      [{ label: "已到诊所", color: "primary", icon: "check" }],
+      [
+        { label: "未到诊所", color: "grey", icon: "check" },
+        { label: "已到诊所", color: "primary", icon: "check" }
+      ],
       [],
-      [{ label: "已到诊所", color: "primary", icon: "check" }],
+      [
+        { label: "未到诊所", color: "grey", icon: "check" },
+        { label: "已到诊所", color: "primary", icon: "check" }
+      ],
       [
         { label: "建议返厂", color: "purple", icon: "wrench" },
         { label: "扔给明天", color: "info", icon: "clock-outline" },

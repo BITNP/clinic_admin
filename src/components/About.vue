@@ -37,6 +37,13 @@ export default {
   data: () => ({
     changeLog: [
       {
+        version: "v0.13.9",
+        dateTime: "2019-10-16",
+        change: [{ feature: "增加了`未到诊所`状态" }],
+        color: "white",
+        scale: "small"
+      },
+      {
         version: "v0.13.8",
         dateTime: "2019-10-14",
         change: [

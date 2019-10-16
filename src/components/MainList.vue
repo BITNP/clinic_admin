@@ -152,7 +152,8 @@ export default {
       { value: 5, text: "正在处理" },
       { value: 6, text: "已解决问题" },
       { value: 7, text: "建议返厂" },
-      { value: 8, text: "交给明天解决" }
+      { value: 8, text: "交给明天解决" },
+      { value: 9, text: "未到诊所" }
     ],
     LIST_TITLE: [
       "工单号",
