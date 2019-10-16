@@ -170,7 +170,10 @@
             <v-icon small class="mr-2" @click="editItem(item)"
               >mdi-pencil</v-icon
             >
-            <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+            <v-icon small class="mr-2" @click="deleteItem(item)"
+              >mdi-delete</v-icon
+            >
+            <v-icon small @click="cancel_all(item)">mdi-cancel</v-icon>
           </template>
           <template v-slot:no-data>
             <v-btn color="primary" @click="initialize">重置</v-btn>
@@ -253,6 +256,16 @@ export default {
   },
 
   methods: {
+    cancel_all(item) {
+      axios
+        .get(item.url + "cancel_all/")
+        .then(({ data }) => {
+          this.$store.commit("popSuccess", `共处理${data.count}个工单`);
+        })
+        .catch(e => {
+          this.$store.commit("popError", e.response.data);
+        });
+    },
     initialize() {
       this.defaultItem.campus = this.user_campus;
       this.editedItem.campus = this.user_campus;

@@ -16,12 +16,12 @@
             <v-list subheader one-line>
               <v-list-item v-for="(item, ind) in c.change" :key="ind">
                 <v-list-item-content>
-                  <v-list-item-title>{{
-                    Object.keys(item)[0]
-                  }}</v-list-item-title>
-                  <v-list-item-subtitle>{{
-                    Object.values(item)[0]
-                  }}</v-list-item-subtitle>
+                  <v-list-item-title>
+                    {{ Object.keys(item)[0] }}
+                  </v-list-item-title>
+                  <v-list-item-subtitle>
+                    {{ Object.values(item)[0] }}
+                  </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -39,8 +39,11 @@ export default {
       {
         version: "v0.13.9",
         dateTime: "2019-10-16",
-        change: [{ feature: "增加了`未到诊所`状态" }],
-        color: "white",
+        change: [
+          { feature: "增加了`未到诊所`状态" },
+          { feature: "增加批量关闭未完成工单的操作" }
+        ],
+        color: "blue",
         scale: "small"
       },
       {
