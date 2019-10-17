@@ -152,12 +152,12 @@ export default {
     dialog: false,
     loading: false,
     types: [
-      { text: "免责声明", value: "TOC" },
+      { text: "免责声明", value: "TOS" },
       { text: "普通公告", value: "AN" },
       { text: "置顶公告", value: "TA" }
     ],
     TAG_TYPES_MAP: {
-      TOC: "免责声明",
+      TOS: "免责声明",
       AN: "普通公告",
       TA: "置顶公告"
     },
