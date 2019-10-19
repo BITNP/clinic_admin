@@ -4,6 +4,8 @@
     <v-expansion-panel-header py-0>
       <v-row no-gutters>
         <v-col
+          cols="4"
+          sm="2"
           v-for="(item, i) in [
             record.id.toString().padStart(8, '0'),
             url2User(record.user)['username'],
@@ -28,13 +30,15 @@
       </v-row>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
-      <v-card>
+      <v-card flat>
         <v-card-text>
           <v-row>
             <!-- TEXT显示的内容 -->
             <template v-for="(text_render_item, ii) in TEXT_RENDER_LIST">
               <v-col
-                cols="3"
+                cols="12"
+                sm="6"
+                md="3"
                 pa-0
                 :key="ii + 'j'"
                 v-if="DISPLAY_LIST[text_render_item].includes(record.status)"
@@ -66,7 +70,9 @@
             <!-- INPUT显示的内容 -->
             <template v-for="(input_render_item, ii) in INPUT_RENDER_LIST">
               <v-col
-                cols="3"
+                cols="12"
+                sm="6"
+                md="3"
                 pa-0
                 :key="ii + 'k'"
                 v-if="INPUT_LIST[input_render_item].includes(record.status)"
@@ -93,7 +99,9 @@
             <!-- select显示的内容 -->
             <!-- 这里不适用 template 列表渲染，是因为 select 具有特殊性，需要特殊处理 -->
             <v-col
-              cols="3"
+              cols="12"
+              sm="6"
+              md="3"
               pa-0
               v-if="SELECT_LIST['worker'].includes(record.status)"
               :key="ii + 'kj'"
@@ -126,13 +134,18 @@
         </v-card-text>
         <v-card-actions>
           <v-row>
-            <v-col v-if="history.length > 0">
+            <v-col cols="12" sm="6" md="3" v-if="history.length > 0">
               <v-btn @click="regret" dark block color="black">
                 后悔药
                 <v-icon dark>mdi-back</v-icon>
               </v-btn>
             </v-col>
-            <v-col v-if="5 <= record.status && record.status <= 8">
+            <v-col
+              cols="12"
+              sm="6"
+              md="3"
+              v-if="5 <= record.status && record.status <= 8"
+            >
               <v-btn
                 @click="
                   updateRecord(record.url, record.status, [], record, true)
@@ -156,7 +169,7 @@
             </v-col>-->
             <template v-for="(item, index) in BUTTON_LIST[record.status]">
               <!--     updateRecord(url, to_status, fields = [], record = {})  -->
-              <v-col :key="index + 'r'">
+              <v-col cols="12" sm="6" md="3" :key="index + 'r'">
                 <v-btn
                   @click="
                     updateRecord(

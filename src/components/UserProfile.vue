@@ -20,7 +20,7 @@
 
           <v-card-actions>
             <v-row align-center justify-end v-if="!editable">
-              <v-col cols="12" sm="6" md="3">
+              <v-col cols="4" sm="6" md="3">
                 <!-- <v-list-item-avatar color="grey darken-3" @click="flip"> -->
                 <v-icon>mdi-account-outline</v-icon>
                 <span>{{ user.username }}</span>

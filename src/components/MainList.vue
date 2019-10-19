@@ -4,7 +4,7 @@
       <v-col cols="12" v-if="filterBar">
         <!-- 这里有用来过滤的几个工具 -->
         <v-row>
-          <v-col cols="4" md="6" sm="12">
+          <v-col cols="12" md="4" sm="6">
             <v-text-field
               label="过滤"
               placeholder="i.e. worker=='冯开宇'"
@@ -13,7 +13,7 @@
               :color="filterColor"
             ></v-text-field>
           </v-col>
-          <v-col cols="4" md="6" sm="12">
+          <v-col cols="12" md="4" sm="6">
             <v-range-slider
               :tick-labels="dateRanges"
               v-model="selectedDateRanges"
@@ -24,14 +24,9 @@
               color="orange"
               track-color="red"
             >
-              <!-- <template v-slot:thumb-label="props">
-                <v-icon dark>
-                  {{ season(props.value) }}
-                </v-icon>
-              </template>-->
             </v-range-slider>
           </v-col>
-          <v-col cols="4" md="6" sm="12">
+          <v-col cols="12" md="4" sm="6">
             <v-combobox
               v-model="selectedStatus"
               :items="STATUS_LIST"
@@ -42,7 +37,7 @@
               chips
             ></v-combobox>
           </v-col>
-          <v-col cols="4" md="6" sm="12">
+          <v-col cols="12" md="4" sm="6">
             <v-row>
               <v-col cols="9">
                 <v-select
@@ -65,7 +60,12 @@
           <v-expansion-panel readonly>
             <v-expansion-panel-header py-0>
               <v-row no-gutters>
-                <v-col v-for="(item, i) in LIST_TITLE" :key="i + 'p'">
+                <v-col
+                  cols="4"
+                  sm="2"
+                  v-for="(item, i) in LIST_TITLE"
+                  :key="i + 'p'"
+                >
                   <div class="margin-fix text-truncate">{{ item }}</div>
                 </v-col>
               </v-row>
