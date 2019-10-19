@@ -3,9 +3,12 @@ const state = {
     {
       version: "v0.13.11",
       dateTime: "2019-10-19",
-      change: [{ refactor: "更好的内部报错与外部报错" }],
-      color: "pink",
-      scale: "small"
+      change: [
+        { refactor: "更好的内部报错与外部报错" },
+        { refactor: "响应式" }
+      ],
+      color: "white",
+      scale: "large"
     },
     {
       version: "v0.13.10",
