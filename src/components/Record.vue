@@ -28,6 +28,9 @@
           </div>
         </v-col>
       </v-row>
+      <template v-slot:actions>
+        <v-icon :color="getIcon.color">mdi-{{ getIcon.icon }}</v-icon>
+      </template>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
       <v-card flat>
@@ -457,6 +460,22 @@ export default {
     },
     history_length() {
       return this.history.length;
+    },
+    getIcon() {
+      if (
+        this.FINISHED_STATUS.includes(this.record.status) &&
+        this.record.is_taken
+      ) {
+        return { icon: "check-all", color: "teal" };
+      }
+      if (this.FINISHED_STATUS.includes(this.record.status)) {
+        return { icon: "check", color: "yellow darken-3" };
+      }
+      if (this.record.status == 1) {
+        return { icon: "bell-outline", color: "red darken-2" };
+      }
+      // unfinish
+      return { icon: "clock", color: "blue darken-3" };
     }
   },
   model: {
