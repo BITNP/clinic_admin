@@ -37,6 +37,13 @@ export default {
   data: () => ({
     changeLog: [
       {
+        version: "v0.13.11",
+        dateTime: "2019-10-19",
+        change: [{ refactor: "更好的内部报错与外部报错" }],
+        color: "pink",
+        scale: "small"
+      },
+      {
         version: "v0.13.10",
         dateTime: "2019-10-17",
         change: [{ fix: "修复后端带来的 break change" }],

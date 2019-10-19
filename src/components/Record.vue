@@ -366,7 +366,6 @@ export default {
               });
           })
           .catch(error => {
-            console.log(error.response.data);
             this.$store.commit("popError", "未能成功创建工单");
             return;
           });
@@ -405,7 +404,6 @@ export default {
       if (user) {
         return user;
       } else {
-        // console.log("NO such user");
         return {};
       }
     },

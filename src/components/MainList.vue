@@ -221,7 +221,6 @@ export default {
           this.filterSuccess(true);
         } catch (error) {
           this.filterSuccess(false);
-          // console.log(error);
         }
       }
       {
@@ -244,7 +243,6 @@ export default {
       }
       {
         let _t = this.selectedStatus.map(v => v.value);
-        // console.log(_t);
         result = result.filter(v => _t.includes(v.status));
       }
       if (this.orderOption) {

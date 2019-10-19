@@ -8,16 +8,40 @@ axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
 Vue.use(Vuex);
 
+function newSnackbar(text: string, error = true, color: string = "") {
+  if (!color) {
+    // if color undefined
+    if (error) {
+      return {
+        text: text ? text : "操作失败",
+        display: true,
+        color: "error"
+      };
+    } else {
+      return {
+        text: text ? text : "操作成功",
+        display: true,
+        color: "success"
+      };
+    }
+  } else {
+    return {
+      text,
+      display: true,
+      color
+    };
+  }
+}
+
 export default new Vuex.Store({
   state: {
-    version: "0.13.10",
+    version: "0.13.11",
     count: 0,
     drawer: false,
     loading: {
       loading: true,
       color: "blue"
     },
-    // 校区表 ['良乡校区', '中关村校区']
     campus: Array(),
     dataStore: {
       next: null
@@ -55,7 +79,6 @@ export default new Vuex.Store({
       state.data = d;
     },
     getWorkers(state) {
-      console.log(state.user);
       axios
         .get("/api/users/", {
           params: {
@@ -66,7 +89,7 @@ export default new Vuex.Store({
         })
         .then(response => (state.workers = response.data.results))
         .catch(error => {
-          console.log(error);
+          state.snackbar = newSnackbar("无法获取数据");
         })
         .finally(() => null);
     },
@@ -75,17 +98,11 @@ export default new Vuex.Store({
       axios
         .get("/api/campus/")
         .then(({ data }) => {
-          // console.group("Campus");
-          // console.log(data);
           let _t = data.map((v: any) => v.name);
-          // console.log(_t);
-
           state.campus = _t;
-          // console.log(state.campus);
-          // console.groupEnd();
         })
         .catch(error => {
-          console.log(error);
+          state.snackbar = newSnackbar("无法获取校区数据");
         });
     },
     getUser(state, user) {
@@ -94,7 +111,6 @@ export default new Vuex.Store({
     },
     updateUser(state, { thenFun, catchFun, finallyFun }) {
       // 被action 调用
-      console.log(thenFun);
       axios
         .put(state.user.url, state.user)
         .then(thenFun())
@@ -118,7 +134,6 @@ export default new Vuex.Store({
         })
         .then(response => {
           state.dataStore = response.data;
-          console.log(response.data.results);
           state.data = state.data.concat(response.data.results);
           // fetchList 存放了本地没有具体用户信息的相应url
           let fetchList = new Map();
@@ -138,37 +153,21 @@ export default new Vuex.Store({
                   Vue.set(state.users, v, response.data);
                 })
                 .catch(error => {
-                  console.log(error);
-                  state.snackbar = {
-                    text: "无法加载用户信息",
-                    color: "error",
-                    display: true
-                  };
+                  state.snackbar = newSnackbar("无法加载用户信息");
                 });
-              state.snackbar = {
-                text: "成功读取数据",
-                color: "success",
-                display: true
-              };
+              state.snackbar = newSnackbar("成功读取数据", false);
             }
           }
         })
         .catch(error => {
-          console.log(error);
-          state.snackbar = {
-            text: "无法获取数据",
-            color: "error",
-            display: true
-          };
+          state.snackbar = newSnackbar("无法获取数据");
         })
         .finally(() => {
           state.loading.loading = false;
-          console.log(state.users);
         });
     },
     insertRecord(state, record: object) {
       // 向总Data中插入一条数据，一般是创建了一个新工单以后调用
-      console.log(record);
       state.data.unshift(record);
     },
     getDates(state) {
@@ -177,24 +176,19 @@ export default new Vuex.Store({
         .then(({ data }) => {
           state.dates = data;
         })
-        .catch(({ response }) => {});
+        .catch(({ response }) => {
+          state.snackbar = newSnackbar("无法获取date");
+        });
     },
     fetchUser(state, url) {
       // 获取用户信息,仅当本地不存在时候调用
       axios
         .get(url)
         .then(response => {
-          // console.log('FETCHUSER:[url]:' + url);
-          // state.users[url] = response.data; SEE doc
           Vue.set(state.users, url, response.data);
         })
         .catch(error => {
-          console.log(error);
-          state.snackbar = {
-            text: "无法加载用户信息",
-            color: "error",
-            display: true
-          };
+          state.snackbar = newSnackbar("无法加载用户信息");
         });
     },
     ifNotFetchUsers(state, url) {
@@ -206,12 +200,7 @@ export default new Vuex.Store({
           Vue.set(state.users, url, response.data);
         })
         .catch(error => {
-          console.log(error);
-          state.snackbar = {
-            text: "无法加载用户信息",
-            color: "error",
-            display: true
-          };
+          state.snackbar = newSnackbar("无法加载用户信息");
         });
     },
     popInfo(state, string) {
@@ -249,7 +238,6 @@ export default new Vuex.Store({
           commit("popSuccess", "提交成功");
         },
         catchFun: () => {
-          // console.log(error);
           commit("popError", "提交失败");
         },
         finallyFun: () => commit("loaded")
@@ -266,7 +254,9 @@ export default new Vuex.Store({
           commit("getDates");
           commit("getData", "/api/records/");
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+          commit("popError", "无法获取用户信息");
+        })
         .finally(() => commit("loaded"));
     },
     insertRecord({ commit }, record) {
