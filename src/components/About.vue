@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2>v{{ version }}</h2>
+    <h2>{{ version }}</h2>
     <v-timeline>
       <v-timeline-item
         v-for="(c, i) in changeLog"
