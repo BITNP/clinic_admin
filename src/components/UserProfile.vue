@@ -1,7 +1,7 @@
 <template>
   <v-container fluid fill-height>
-    <v-row class="about" justify="space-around">
-      <v-col cols="sm">
+    <v-row justify="space-around">
+      <v-col cols="12" md="6">
         <v-card v-ripple class="mx-auto" color="#26c6da" dark>
           <v-card-title>
             <span class="title font-weight-bold"
@@ -20,21 +20,21 @@
 
           <v-card-actions>
             <v-row align-center justify-end v-if="!editable">
-              <v-col cols="3">
+              <v-col cols="12" sm="6" md="3">
                 <!-- <v-list-item-avatar color="grey darken-3" @click="flip"> -->
                 <v-icon>mdi-account-outline</v-icon>
                 <span>{{ user.username }}</span>
               </v-col>
 
-              <v-col cols="3">
+              <v-col cols="12" sm="6" md="3">
                 <v-icon class="mr-1">mdi-account-box-outline</v-icon>
                 <span class="subheading mr-2">{{ user.realname }}</span>
               </v-col>
-              <v-col cols="3">
+              <v-col cols="12" sm="6" md="3">
                 <v-icon class="mr-1">mdi-school</v-icon>
                 <span class="subheading">{{ user.school }}</span>
               </v-col>
-              <v-col cols="3">
+              <v-col cols="12" sm="6" md="3">
                 <v-icon class="mr-1">mdi-school</v-icon>
                 <span class="subheading">{{ user.campus }}</span>
               </v-col>
@@ -70,7 +70,7 @@
           </v-card-actions>
         </v-card>
       </v-col>
-      <v-col cols="sm">
+      <v-col cols="12" xs="12" md="6">
         <v-card style="height:100%">
           <v-toolbar color="pink" flat dark>
             <v-toolbar-title>今日值班名单</v-toolbar-title>
