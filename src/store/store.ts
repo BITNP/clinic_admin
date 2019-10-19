@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
-
+import moduleAbout from "./modules/about";
 // for django csrf token
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -35,7 +35,6 @@ function newSnackbar(text: string, error = true, color: string = "") {
 
 export default new Vuex.Store({
   state: {
-    version: "0.13.11",
     count: 0,
     drawer: false,
     loading: {
@@ -263,5 +262,8 @@ export default new Vuex.Store({
       if (record.user) commit("ifNotFetchUsers", record.user);
       commit("insertRecord", record);
     }
+  },
+  modules: {
+    about: moduleAbout
   }
 });

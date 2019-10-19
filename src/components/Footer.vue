@@ -15,7 +15,7 @@
       <v-spacer></v-spacer>
       <v-flex class="text-right" xs1>
         <router-link to="about" tag="span">
-          <span> v{{ version }}</span></router-link
+          <span> {{ version }}</span></router-link
         ></v-flex
       >
     </v-layout>
@@ -26,7 +26,7 @@
 export default {
   computed: {
     version() {
-      return this.$store.state.version;
+      return this.$store.state.about.changeLog[0].version;
     },
     loading: function() {
       return this.$store.state.loading;
