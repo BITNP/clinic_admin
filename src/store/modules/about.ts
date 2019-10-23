@@ -1,6 +1,13 @@
 const state = {
   changeLog: [
     {
+      version: "v0.13.12",
+      dateTime: "2019-10-23",
+      change: [{ fix: "尝试修复时区问题，但发现好像根本原因来自后端" }],
+      color: "purple",
+      scale: "small"
+    },
+    {
       version: "v0.13.11",
       dateTime: "2019-10-19",
       change: [

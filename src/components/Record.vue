@@ -199,6 +199,32 @@
 </template>
 
 <script>
+Date.prototype.toIsoString = function() {
+  var tzo = -this.getTimezoneOffset(),
+    dif = tzo >= 0 ? "+" : "-",
+    pad = function(num) {
+      var norm = Math.floor(Math.abs(num));
+      return (norm < 10 ? "0" : "") + norm;
+    };
+  return (
+    this.getFullYear() +
+    "-" +
+    pad(this.getMonth() + 1) +
+    "-" +
+    pad(this.getDate()) +
+    "T" +
+    pad(this.getHours()) +
+    ":" +
+    pad(this.getMinutes()) +
+    ":" +
+    pad(this.getSeconds()) +
+    dif +
+    pad(tzo / 60) +
+    ":" +
+    pad(tzo % 60)
+  );
+};
+
 export default {
   data: () => ({
     history: [], // a stack for restoring the status
@@ -393,7 +419,7 @@ export default {
       this.history.push({ ...record });
       if (record.status != 5 && to_status == 5) {
         // 已到
-        record.arrive_time = new Date().toISOString();
+        record.arrive_time = new Date();
       }
       if (changeSomeThing) {
         record.is_taken = !record.is_taken;
