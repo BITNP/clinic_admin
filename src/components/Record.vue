@@ -193,6 +193,7 @@
             </template>
           </v-row>
         </v-card-actions>
+        <br />
       </v-card>
     </v-expansion-panel-content>
   </v-expansion-panel>
@@ -360,8 +361,7 @@ export default {
           })
           .then(response => {
             this.$store.commit("popSuccess", "成功创建新工单");
-            // 不需要用户手动更新视图
-            this.$store.dispatch("insertRecord", response.data);
+            let new_data = response.data;
             // 更新本个工单
             this.$http
               .put(url, { ...record, status: to_status })
@@ -369,7 +369,7 @@ export default {
                 // 保存上一个state
                 this.history.push({
                   ...record,
-                  next_url: data.url
+                  next_record: new_data
                 });
                 record.status = to_status;
               })
@@ -378,6 +378,8 @@ export default {
                 this.$store.commit("popError", "更新失败");
               })
               .finally(() => {
+                // 不需要用户手动更新视图
+                this.$store.dispatch("insertRecord", new_data);
                 this.$store.commit("loaded");
               });
           })
@@ -425,23 +427,35 @@ export default {
     },
     regret() {
       const old_status = this.record.status;
-      this.record = this.history.pop();
+      const poped_record = this.history.pop();
       this.$http
-        .put(this.record.url, this.record)
+        .put(this.record.url, poped_record)
         .then(({ statusCode }) => {
           // 删除新创建的
-          if (old_status == 8) {
+          if (
+            old_status == 8 &&
+            poped_record.status == 5 &&
+            poped_record.next_record
+          ) {
+            // 说明从`扔给明天`转回`正在处理`
             this.$http
-              .delete(this.record.next_url)
+              .delete(poped_record.next_record.url)
               .then(response => {
                 this.$store.commit("popSuccess", "后悔成功");
               })
-              .catch(e => this.$store.commit("popError", "删除新工单失败" + e));
+              .catch(e => this.$store.commit("popError", "删除新工单失败" + e))
+              .finally(() => {
+                // TODO 增加删除一个工单的代码，同时需要在 store.ts 中增加相应的内容
+                this.$store.commit("deleteRecord", poped_record.next_record);
+              });
           } else {
             this.$store.commit("popSuccess", "后悔成功");
           }
         })
-        .catch(e => this.$store.commit("popError", "后悔失败"));
+        .catch(e => this.$store.commit("popError", "后悔失败"))
+        .finally(() => {
+          this.record.status = poped_record.status;
+        });
     },
     date(d) {
       if (!d) return "";

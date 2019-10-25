@@ -1,6 +1,13 @@
 const state = {
   changeLog: [
     {
+      version: "v0.13.13",
+      dateTime: "2019-10-24",
+      change: [{ fix: "修复工单在后悔时候，发生了错误的状态转移的问题" }],
+      color: "white",
+      scale: "middle"
+    },
+    {
       version: "v0.13.12",
       dateTime: "2019-10-23",
       change: [{ fix: "尝试修复时区问题，但发现好像根本原因来自后端" }],

@@ -23,14 +23,16 @@ export default new Router({
     {
       path: "/schedule",
       name: "schedule",
-      component:()=>
-      import(/* webpackChunkName: "schedule" */ "./views/Schedule.vue")
+      component: () =>
+        import(/* webpackChunkName: "schedule" */ "./views/Schedule.vue")
     },
     {
       path: "/announcement",
       name: "announcement",
-      component:()=>
-      import(/* webpackChunkName: "announcement" */ "./views/Announcement.vue")
+      component: () =>
+        import(
+          /* webpackChunkName: "announcement" */ "./views/Announcement.vue"
+        )
     },
     {
       path: "/about",

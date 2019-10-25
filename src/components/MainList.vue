@@ -74,8 +74,8 @@
               </template>
             </v-expansion-panel-header>
           </v-expansion-panel>
-          <template v-for="(r, i) in records">
-            <Record :record="r" :key="i"></Record>
+          <template v-for="r in records">
+            <Record :record="r" :key="r.url"></Record>
           </template>
         </v-expansion-panels>
       </v-col>

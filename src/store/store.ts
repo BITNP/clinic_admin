@@ -169,6 +169,9 @@ export default new Vuex.Store({
       // 向总Data中插入一条数据，一般是创建了一个新工单以后调用
       state.data.unshift(record);
     },
+    deleteRecord(state, record: object) {
+      state.data.splice(state.data.indexOf(record), 1);
+    },
     getDates(state) {
       axios
         .get("/api/date/")
