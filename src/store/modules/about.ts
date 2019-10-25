@@ -1,6 +1,13 @@
 const state = {
   changeLog: [
     {
+      version: "v0.13.14",
+      dateTime: "2019-10-25",
+      change: [{ feature: "发送请求时添加 overlay 防止重复操作" }],
+      color: "green lighten-4",
+      scale: "small"
+    },
+    {
       version: "v0.13.13",
       dateTime: "2019-10-24",
       change: [{ fix: "修复工单在后悔时候，发生了错误的状态转移的问题" }],

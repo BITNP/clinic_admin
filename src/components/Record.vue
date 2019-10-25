@@ -48,12 +48,12 @@
               >
                 <v-card hover height="100%">
                   <v-card-title>
-                    <v-icon large left :color="ICON_COLOR[text_render_item]">{{
-                      ICON_LIST[text_render_item]
-                    }}</v-icon>
-                    <span class="title font-weight-light">{{
-                      KEY_TRANSLATION[text_render_item]
-                    }}</span>
+                    <v-icon large left :color="ICON_COLOR[text_render_item]">
+                      {{ ICON_LIST[text_render_item] }}
+                    </v-icon>
+                    <span class="title font-weight-light">
+                      {{ KEY_TRANSLATION[text_render_item] }}
+                    </span>
                   </v-card-title>
                   <v-card-text>
                     <p>
@@ -82,12 +82,12 @@
               >
                 <v-card hover height="100%">
                   <v-card-title>
-                    <v-icon large left :color="ICON_COLOR[input_render_item]">
-                      {{ ICON_LIST[input_render_item] }}
-                    </v-icon>
-                    <span class="title font-weight-light">
-                      {{ KEY_TRANSLATION[input_render_item] }}
-                    </span>
+                    <v-icon large left :color="ICON_COLOR[input_render_item]">{{
+                      ICON_LIST[input_render_item]
+                    }}</v-icon>
+                    <span class="title font-weight-light">{{
+                      KEY_TRANSLATION[input_render_item]
+                    }}</span>
                   </v-card-title>
                   <v-card-text>
                     <v-text-field
@@ -111,12 +111,12 @@
             >
               <v-card hover height="100%">
                 <v-card-title>
-                  <v-icon large left :color="ICON_COLOR['worker']">{{
-                    ICON_LIST["worker"]
-                  }}</v-icon>
-                  <span class="title font-weight-light">
-                    {{ KEY_TRANSLATION["worker"] }}
-                  </span>
+                  <v-icon large left :color="ICON_COLOR['worker']">
+                    {{ ICON_LIST["worker"] }}
+                  </v-icon>
+                  <span class="title font-weight-light">{{
+                    KEY_TRANSLATION["worker"]
+                  }}</span>
                 </v-card-title>
                 <v-card-text>
                   <!-- :hint="" -->
@@ -193,15 +193,18 @@
             </template>
           </v-row>
         </v-card-actions>
-        <br />
       </v-card>
     </v-expansion-panel-content>
+    <v-overlay :value="loading" absolute>
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
   </v-expansion-panel>
 </template>
 
 <script>
 export default {
   data: () => ({
+    loading: true,
     history: [], // a stack for restoring the status
     WORKING_STATUS: [0, 1, 2, 4, 5],
     FINISHED_STATUS: [3, 6, 7, 8, 9],
@@ -343,6 +346,7 @@ export default {
       changeSomeThing = null
     ) {
       this.$store.commit("loading");
+      this.loading = true;
 
       if (to_status == 8 && record.status != 8) {
         // 扔给明天
@@ -381,6 +385,7 @@ export default {
                 // 不需要用户手动更新视图
                 this.$store.dispatch("insertRecord", new_data);
                 this.$store.commit("loaded");
+                this.loading = false;
               });
           })
           .catch(error => {
@@ -414,6 +419,7 @@ export default {
         })
         .finally(() => {
           this.$store.commit("loaded");
+          this.loading = false;
         });
     },
     url2User(url) {
@@ -426,6 +432,9 @@ export default {
       }
     },
     regret() {
+      this.$store.commit("loading");
+      this.loading = true;
+
       const old_status = this.record.status;
       const poped_record = this.history.pop();
       this.$http
@@ -455,6 +464,8 @@ export default {
         .catch(e => this.$store.commit("popError", "后悔失败"))
         .finally(() => {
           this.record.status = poped_record.status;
+          this.$store.commit("loaded");
+          this.loading = false;
         });
     },
     date(d) {
@@ -502,6 +513,7 @@ export default {
       // 如果没有worker，那么默认是自己
       this.record.worker = this.$store.state.user.url;
     }
+    this.loading = false;
   }
 };
 </script>
