@@ -2347,9 +2347,9 @@ check-types@^8.0.3:
   integrity sha1-M1bMoZyIlUTy16le1JzlCKDs9VI=
 
 "chokidar@>=2.0.0 <4.0.0":
-  version "3.2.1"
-  resolved "https://registry.npm.taobao.org/chokidar/download/chokidar-3.2.1.tgz?cache=0&sync_timestamp=1569943270392&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fchokidar%2Fdownload%2Fchokidar-3.2.1.tgz#4634772a1924512d990d4505957bf3a510611387"
-  integrity sha1-RjR3KhkkUS2ZDUUFlXvzpRBhE4c=
+  version "3.2.2"
+  resolved "https://registry.npm.taobao.org/chokidar/download/chokidar-3.2.2.tgz?cache=0&sync_timestamp=1571193875667&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fchokidar%2Fdownload%2Fchokidar-3.2.2.tgz#a433973350021e09f2b853a2287781022c0dc935"
+  integrity sha1-pDOXM1ACHgnyuFOiKHeBAiwNyTU=
   dependencies:
     anymatch "~3.1.1"
     braces "~3.0.2"
@@ -2357,9 +2357,9 @@ check-types@^8.0.3:
     is-binary-path "~2.1.0"
     is-glob "~4.0.1"
     normalize-path "~3.0.0"
-    readdirp "~3.1.3"
+    readdirp "~3.2.0"
   optionalDependencies:
-    fsevents "~2.1.0"
+    fsevents "~2.1.1"
 
 chokidar@^2.0.2, chokidar@^2.0.4, chokidar@^2.1.8:
   version "2.1.8"
@@ -2513,11 +2513,6 @@ coa@^2.0.2:
     "@types/q" "^1.5.1"
     chalk "^2.4.1"
     q "^1.1.2"
-
-code-point-at@^1.0.0:
-  version "1.1.0"
-  resolved "https://registry.npm.taobao.org/code-point-at/download/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
-  integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
 collection-visit@^1.0.0:
   version "1.0.0"
@@ -4387,10 +4382,10 @@ fsevents@^1.2.3, fsevents@^1.2.7:
     nan "^2.12.1"
     node-pre-gyp "^0.12.0"
 
-fsevents@~2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npm.taobao.org/fsevents/download/fsevents-2.1.0.tgz#ce1a5f9ac71c6d75278b0c5bd236d7dfece4cbaa"
-  integrity sha1-zhpfmsccbXUniwxb0jbX3+zky6o=
+fsevents@~2.1.1:
+  version "2.1.1"
+  resolved "https://registry.npm.taobao.org/fsevents/download/fsevents-2.1.1.tgz#74c64e21df71721845d0c44fe54b7f56b82995a9"
+  integrity sha1-dMZOId9xchhF0MRP5Ut/Vrgplak=
 
 function-bind@^1.0.2, function-bind@^1.1.1:
   version "1.1.1"
@@ -5272,13 +5267,6 @@ is-finite@^1.0.0:
   version "1.0.2"
   resolved "https://registry.npm.taobao.org/is-finite/download/is-finite-1.0.2.tgz#cc6677695602be550ef11e8b4aa6305342b6d0aa"
   integrity sha1-zGZ3aVYCvlUO8R6LSqYwU0K20Ko=
-  dependencies:
-    number-is-nan "^1.0.0"
-
-is-fullwidth-code-point@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npm.taobao.org/is-fullwidth-code-point/download/is-fullwidth-code-point-1.0.0.tgz#ef9e31386f031a7f0d643af82fde50c457ef00cb"
-  integrity sha1-754xOG8DGn8NZDr4L95QxFfvAMs=
   dependencies:
     number-is-nan "^1.0.0"
 
@@ -8235,10 +8223,10 @@ readdirp@^2.2.1:
     micromatch "^3.1.10"
     readable-stream "^2.0.2"
 
-readdirp@~3.1.3:
-  version "3.1.3"
-  resolved "https://registry.npm.taobao.org/readdirp/download/readdirp-3.1.3.tgz#d6e011ed5b9240a92f08651eeb40f7942ceb6cc1"
-  integrity sha1-1uAR7VuSQKkvCGUe60D3lCzrbME=
+readdirp@~3.2.0:
+  version "3.2.0"
+  resolved "https://registry.npm.taobao.org/readdirp/download/readdirp-3.2.0.tgz#c30c33352b12c96dfb4b895421a49fd5a9593839"
+  integrity sha1-wwwzNSsSyW37S4lUIaSf1alZODk=
   dependencies:
     picomatch "^2.0.4"
 
@@ -8645,9 +8633,9 @@ sass-loader@^7.1.0:
     semver "^6.3.0"
 
 sass@^1.17.4:
-  version "1.23.0"
-  resolved "https://registry.npm.taobao.org/sass/download/sass-1.23.0.tgz#bd526ff40dbc5d09a4ed69e2cffa849749977710"
-  integrity sha1-vVJv9A28XQmk7Wniz/qEl0mXdxA=
+  version "1.23.1"
+  resolved "https://registry.npm.taobao.org/sass/download/sass-1.23.1.tgz?cache=0&sync_timestamp=1571791336219&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fsass%2Fdownload%2Fsass-1.23.1.tgz#0e5b72ba2bd9f0229a637d33f8dd5bf2d810beb3"
+  integrity sha1-DltyuivZ8CKaY30z+N1b8tgQvrM=
   dependencies:
     chokidar ">=2.0.0 <4.0.0"
 
@@ -10060,9 +10048,9 @@ vuetify-loader@^1.2.2:
     loader-utils "^1.2.0"
 
 vuetify@^2.0.0:
-  version "2.1.5"
-  resolved "https://registry.npm.taobao.org/vuetify/download/vuetify-2.1.5.tgz?cache=0&sync_timestamp=1571330973141&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvuetify%2Fdownload%2Fvuetify-2.1.5.tgz#4e3964f1b5801a7cc7dace7ffec880635f6296fc"
-  integrity sha1-Tjlk8bWAGnzH2s5//siAY19ilvw=
+  version "2.1.6"
+  resolved "https://registry.npm.taobao.org/vuetify/download/vuetify-2.1.6.tgz?cache=0&sync_timestamp=1571758836428&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvuetify%2Fdownload%2Fvuetify-2.1.6.tgz#f6c02458e2a143fa761f7d4f9831fe04cea26e09"
+  integrity sha1-9sAkWOKhQ/p2H31PmDH+BM6ibgk=
 
 vuex@^3.0.1:
   version "3.1.1"
