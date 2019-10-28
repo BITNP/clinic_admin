@@ -1,6 +1,13 @@
 const state = {
   changeLog: [
     {
+      version: "v0.13.15",
+      dateTime: "2019-10-28",
+      change: [{ feature: "增加新建当天工单的输入信息" }],
+      color: "green darken-4",
+      scale: "small"
+    },
+    {
       version: "v0.13.14",
       dateTime: "2019-10-25",
       change: [{ feature: "发送请求时添加 overlay 防止重复操作" }],

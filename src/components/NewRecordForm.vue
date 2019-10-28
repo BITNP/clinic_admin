@@ -21,6 +21,17 @@
         required
         v-model="record.description"
       ></v-textarea>
+      <v-text-field
+        label="真实姓名"
+        hint="可选"
+        placeholder="姜发财"
+        v-model="record.realname"
+      ></v-text-field>
+      <v-text-field
+        label="联系方式"
+        hint="手机号"
+        v-model="record.phone_num"
+      ></v-text-field>
     </v-card-text>
     <v-card-actions>
       <div class="flex-grow-1"></div>
