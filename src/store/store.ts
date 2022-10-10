@@ -125,11 +125,10 @@ export default new Vuex.Store({
     getData(state, url) {
       // 获取data，并更新缓存
       state.loading.loading = true;
+      let p = url.includes("campus") ? {} : { campus: state.user.campus }
       axios
         .get(url, {
-          params: {
-            campus: state.user.campus
-          }
+          params: p
         })
         .then(response => {
           state.dataStore = response.data;
