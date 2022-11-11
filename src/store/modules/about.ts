@@ -1,6 +1,13 @@
 const state = {
   changeLog: [
     {
+      version: "v0.13.16",
+      dateTime: "2022-10-10",
+      change: [{ fix: "修复查看更多工单的次数较多时请求url长度超过限制的问题" }],
+      color: "pink",
+      scale: "small"
+    },
+    {
       version: "v0.13.15",
       dateTime: "2019-10-28",
       change: [{ feature: "增加新建当天工单的输入信息" }],
