@@ -1,6 +1,13 @@
 const state = {
   changeLog: [
     {
+      version: "v0.13.17",
+      dateTime: "2023-08-29",
+      change: [{ feature: "优化预约确认时和未到诊所的工单信息显示" }],
+      color: "blue",
+      scale: "small"
+    },
+    {
       version: "v0.13.16",
       dateTime: "2022-10-10",
       change: [{ fix: "修复查看更多工单的次数较多时请求url长度超过限制的问题" }],
