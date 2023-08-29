@@ -271,7 +271,7 @@ export default {
     },
     DISPLAY_LIST: {
       description: [0, 1, 2, 3, 4, 5, 6, 7],
-      model: [6, 7, 8],
+      model: [0, 1, 2, 3, 4, 6, 7, 8],
       reject_reason: [3],
       password: [5, 6, 7, 8],
       worker: [6, 7, 8],
