@@ -1,6 +1,6 @@
 <template>
   <!-- readonly 是没有任何需要编辑的状态，就不展开了 -->
-  <v-expansion-panel :readonly="record.status === 9">
+  <v-expansion-panel>
     <v-expansion-panel-header py-0>
       <v-row no-gutters>
         <v-col
@@ -270,8 +270,8 @@ export default {
       method: "amber"
     },
     DISPLAY_LIST: {
-      description: [0, 1, 2, 3, 4, 5, 6, 7],
-      model: [0, 1, 2, 3, 4, 6, 7, 8],
+      description: [0, 1, 2, 3, 4, 5, 6, 7, 9],
+      model: [0, 1, 2, 3, 4, 6, 7, 8, 9],
       reject_reason: [3],
       password: [5, 6, 7, 8],
       worker: [6, 7, 8],
