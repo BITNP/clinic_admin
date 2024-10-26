@@ -9,6 +9,8 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@babel/runtime": "^7.26.0",
+    "babel-runtime": "^6.26.0",
     "core-js": "^3.38.1",
     "vue": "^2.7.16",
     "vue-class-component": "^7.2.6",
@@ -20,6 +22,8 @@
     "vuex": "^3"
   },
   "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/eslint-parser": "^7.25.9",
     "@types/jest": "^27",
     "@typescript-eslint/parser": "^8.0.0",
     "@vue/cli-plugin-babel": "^5.0.8",
@@ -31,8 +35,6 @@
     "@vue/eslint-config-typescript": "^13",
     "@vue/test-utils": "1.0.0-beta.29",
     "axios": "^1.7.7",
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^10.1.0",
     "eslint": "^8.0.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-vue": "^9.29.1",
