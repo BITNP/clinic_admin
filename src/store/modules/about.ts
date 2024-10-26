@@ -1,6 +1,13 @@
 const state = {
   changeLog: [
     {
+      version: "v0.14.0",
+      dateTime: "2024-10-26",
+      change: [{ refactor: "REFRESH all dependencies" }],
+      color: "green",
+      scale: "large"
+    },
+    {
       version: "v0.13.17",
       dateTime: "2023-08-29",
       change: [{ feature: "优化预约确认时和未到诊所的工单信息显示" }],
