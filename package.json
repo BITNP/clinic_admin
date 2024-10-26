@@ -20,7 +20,7 @@
     "vuex": "^3"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.14",
+    "@types/jest": "^27",
     "@typescript-eslint/parser": "^8.0.0",
     "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-eslint": "^5.0.8",
